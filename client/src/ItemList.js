@@ -1,0 +1,39 @@
+import React, { Component } from 'react';
+import { DrizzleContext } from 'drizzle-react';
+import Card from 'react-bootstrap/Card';
+import CardColumns from 'react-bootstrap/CardColumns';
+import PurchaseButton from './PurchaceButton';
+
+class ItemList extends Component {
+
+  render() {
+    const rows = this.props.items.map(function (item, index) {
+      return <Card key={index}>
+        <Card.Body>
+          <Card.Title>{item.price}</Card.Title>
+          <Card.Text>description</Card.Text>
+          <PurchaseButton index={index} item={item} />
+        </Card.Body>
+      </Card>
+    });
+
+    return (
+      <CardColumns>
+        {rows}
+      </CardColumns>
+    );
+  }
+}
+
+const withContext = props => (
+  <DrizzleContext.Consumer>
+    {({ drizzle, drizzleState }) => (
+      <ItemList
+        drizzle={drizzle}
+        drizzleState={drizzleState}
+        items={props.items}
+      />
+    )}
+  </DrizzleContext.Consumer>
+);
+export default withContext;
