@@ -10,7 +10,7 @@ class Provider extends React.Component {
       const length = await contract.methods.getItemCount().call();
       const dataKeys = [];
       for (let i = 0; i < length; i++) {
-        dataKeys.push(contract.methods.items.cacheCall(i));
+        dataKeys.push(contract.methods.getItem.cacheCall(i));
       }
       this.setState({
         ...this.state,

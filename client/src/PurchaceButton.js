@@ -10,7 +10,6 @@ class PurchaseButton extends Component {
     this.onClick = (index, price) => {
       const { drizzle, drizzleState } = this.props;
       const contract = drizzle.contracts.ItemShop;
-      console.log(index, price);
       const stackId = contract.methods.buy(index).send({
         value: price,
         from: drizzleState.accounts[0],
@@ -23,11 +22,8 @@ class PurchaseButton extends Component {
   getTxStatus = () => {
     // get the transaction states from the drizzle state
     const { transactions, transactionStack } = this.props.drizzleState;
-    //console.log(transactions);
-    //console.log(transactionStack);
     // get the transaction hash using our saved `stackId`
     const txHash = transactionStack[this.state.stackId];
-    //console.log(txHash);
     // if transaction hash does not exist, don't display anything
     if (!txHash) return null;
     // otherwise, return the transaction status
@@ -38,10 +34,12 @@ class PurchaseButton extends Component {
     var button;
     var item = this.props.item;
     var index = this.props.index;
-    if (item.sold) {
+    var sold = item[1];
+    var price = item[0];
+    if (sold) {
       button = <Button variant="primary" disabled>sold out</Button>;
     } else {
-      button = <Button variant="primary" onClick={() => this.onClick(index, item.price)}>buy</Button>;
+      button = <Button variant="primary" onClick={() => this.onClick(index, price)}>buy</Button>;
     }
     return (<div>
       {button}

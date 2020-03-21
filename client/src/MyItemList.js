@@ -9,14 +9,13 @@ class MyItemList extends Component {
   render() {
     const account = this.props.account;
     const rows = this.props.items.map(function (item, index) {
-      if (account !== item.address) {
+      if (account !== item[2]) {
         return null;
       }
       return <Card key={index}>
         <Card.Body>
-          <Card.Title>{item.price}</Card.Title>
+          <Card.Title>{index}</Card.Title>
           <Card.Text>description</Card.Text>
-          <PurchaseButton index={index} item={item} />
         </Card.Body>
       </Card>
     });

@@ -11,7 +11,7 @@ class ShowMyItem extends Component {
   render() {
     const { ItemShop } = this.props.drizzleState.contracts;
     const Items = this.props.dataKeys.map(key =>
-      ItemShop.items[key] ? ItemShop.items[key].value : []
+      ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
     );
     return <MyItemList items={Items} account={this.props.drizzleState.accounts[0]} />;
   }

@@ -11,10 +11,8 @@ class ShowItemShop extends Component {
   render() {
     const { ItemShop } = this.props.drizzleState.contracts;
     const Items = this.props.dataKeys.map(key =>
-      ItemShop.items[key] ? ItemShop.items[key].value : []
+      ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
     );
-    console.log(Items);
-    console.log(ItemShop.getItemCount);
     return <ItemList items={Items} />;
   }
 }

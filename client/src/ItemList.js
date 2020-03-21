@@ -8,10 +8,11 @@ class ItemList extends Component {
 
   render() {
     const rows = this.props.items.map(function (item, index) {
+      var price = item[0];
       return <Card key={index}>
         <Card.Body>
-          <Card.Title>{item.price}</Card.Title>
-          <Card.Text>description</Card.Text>
+          <Card.Title>{index}</Card.Title>
+          <Card.Text>price:{price}</Card.Text>
           <PurchaseButton index={index} item={item} />
         </Card.Body>
       </Card>
