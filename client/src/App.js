@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { DrizzleContext } from 'drizzle-react';
+import { DrizzleContext } from '@drizzle/react-plugin';
 
 import './App.css';
 import Main from './Main';

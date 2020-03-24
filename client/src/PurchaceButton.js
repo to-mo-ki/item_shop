@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DrizzleContext } from 'drizzle-react';
+import { DrizzleContext } from '@drizzle/react-plugin';
 import Button from 'react-bootstrap/Button';
 
 class PurchaseButton extends Component {

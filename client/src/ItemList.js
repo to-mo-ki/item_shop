@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DrizzleContext } from 'drizzle-react';
+import { DrizzleContext } from '@drizzle/react-plugin';
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
 import PurchaseButton from './PurchaceButton';
