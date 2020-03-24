@@ -14,7 +14,7 @@ class AddItem extends Component {
   addItem = value => {
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.ItemShop;
-    const stackId = contract.methods.mintItem.cacheSend(value, {
+    const stackId = contract.methods.mintItem(value).send(value, {
       from: drizzleState.accounts[0]
     });
     this.setState({ stackId });
