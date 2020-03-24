@@ -4,14 +4,14 @@ var ItemShop = artifacts.require("ItemShop");
 
 async function checkExeption(promise, message) {
   await promise.then((result) => {
-    assert(false);
+    assert.fail();
   }).catch((err) => {
-    assert(err.toString().includes(message));
+    assert.isTrue(err.toString().includes(message));
   });
 }
 
 contract('ItemShop', function (accounts) {
-
+  var obj;
   describe('getState method', function () {
     beforeEach(async function () {
       obj = await ItemShop.new();
@@ -20,8 +20,8 @@ contract('ItemShop', function (accounts) {
     it("No item test", async function () {
       count = await obj.getItemCount();
       assert.equal(count, 0);
-      //checkExeption(obj.buy(0, { value: 1 }), 'Invalid item id');
-      //checkExeption(obj.get(0), 'Invalid item id');
+      checkExeption(obj.buy(0, { value: 1 }), 'Invalid item id');
+      checkExeption(obj.getItem(0), 'Invalid item id');
     });
 
     it("unsold test", async function () {
@@ -31,17 +31,27 @@ contract('ItemShop', function (accounts) {
       assert.equal(item[1], false);
     });
 
-    it("buy test", async function () {
+    it("approve test", async function () {
       await obj.mintItem(2);
-      await obj.buy(0, { value: 2 });
+      var approvedAccount = await obj.getApproved(0);
+      assert.equal(approvedAccount, 0x0000000000000000000000000000000000000000);
+      await obj.approve(accounts[1], 0);
+      approvedAccount = await obj.getApproved(0)
+      assert.equal(approvedAccount, accounts[1]);
+    });
+
+    it("buy test by other account", async function () {
+      await obj.mintItem(2);
+      await obj.approve(accounts[1], 0);
+      await obj.buy(0, { value: 2, from: accounts[1] });
       item = await obj.getItem(0);
       assert.equal(item[0], 2);
       assert.equal(item[1], true);
     });
 
-    it("invalid money", async function () {
+    it("invalid price", async function () {
       await obj.mintItem(2);
-      checkExeption(obj.buy(0, { value: 1 }), 'Invalid money');
+      checkExeption(obj.buy(0, { value: 1 }), 'Invalid price');
       item = await obj.getItem(0);
       assert.equal(item[0], 2);
       assert.equal(item[1], false);

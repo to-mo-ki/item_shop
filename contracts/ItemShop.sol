@@ -1,8 +1,8 @@
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity ^0.6.0;
 
-import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
-import "../node_modules/openzeppelin-solidity/contracts/payment/PullPayment.sol";
+import "../openzeppelin-contracts/contracts/access/Ownable.sol";
+import "../openzeppelin-contracts/contracts/token/ERC721/ERC721Full.sol";
+import "../openzeppelin-contracts/contracts/payment/PullPayment.sol";
 
 contract ItemShop is Ownable, ERC721Full, PullPayment {
     struct Item {
@@ -34,7 +34,8 @@ contract ItemShop is Ownable, ERC721Full, PullPayment {
     }
 
     function mintItem(uint256 _price) public onlyOwner {
-        uint256 newTokenId = items.push(Item(_price, false)) - 1;
+        items.push(Item(_price, false));
+        uint256 newTokenId = items.length - 1;
         _mint(msg.sender, newTokenId);
     }
 
