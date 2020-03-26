@@ -1,19 +1,8 @@
 pragma solidity ^0.6.0;
 
-import "../openzeppelin-contracts/contracts/access/Ownable.sol";
-import "../openzeppelin-contracts/contracts/token/ERC721/ERC721Full.sol";
-import "../openzeppelin-contracts/contracts/payment/PullPayment.sol";
+import "./ItemToken.sol";
 
-contract ItemShop is Ownable, ERC721Full, PullPayment {
-    struct Item {
-        uint256 price;
-        bool sold;
-    }
-
-    Item[] public items;
-    //一時的
-    constructor() public ERC721Full("ItemShop", "IS") {}
-
+contract ItemShop is ItemToken {
     modifier validItemId(uint256 itemId) {
         require(itemId < items.length && itemId >= 0, "Invalid item id");
         _;
@@ -24,27 +13,11 @@ contract ItemShop is Ownable, ERC721Full, PullPayment {
         _;
     }
 
-    function setPrice(uint256 _id, uint256 _price)
-        public
-        onlyOwner
-        validItemId(_id)
-        unsold(_id)
-    {
-        items[_id].price = _price;
-    }
-
-    function mintItem(uint256 _price) public onlyOwner {
-        items.push(Item(_price, false));
-        uint256 newTokenId = items.length - 1;
-        _mint(msg.sender, newTokenId);
-    }
-
     function buy(uint256 _id) public payable validItemId(_id) unsold(_id) {
         require(msg.value == items[_id].price, "Invalid price");
-        //require(owner() != address(0), "Invalid Owner");
-        //_asyncTransfer(owner, items[_id].price);
-        safeTransferFrom(owner(), msg.sender, _id);
         items[_id].sold = true;
+        safeTransferFrom(owner(), msg.sender, _id);
+        _asyncTransfer(owner(), items[_id].price);
     }
 
     function getItem(uint256 _id)
