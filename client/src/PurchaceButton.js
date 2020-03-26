@@ -10,8 +10,9 @@ class PurchaseButton extends Component {
     this.onClick = (index, price) => {
       const { drizzle, drizzleState } = this.props;
       const contract = drizzle.contracts.ItemShop;
+      const weiPrice = drizzle.web3.utils.toWei(price, "ether");
       const stackId = contract.methods.buy(index).send({
-        value: price,
+        value: weiPrice,
         from: drizzleState.accounts[0],
       });
       this.setState({ stackId });

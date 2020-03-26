@@ -14,7 +14,7 @@ contract ItemShop is ItemToken {
     }
 
     function buy(uint256 _id) public payable validItemId(_id) unsold(_id) {
-        require(msg.value == items[_id].price, "Invalid price");
+        require(msg.value == items[_id].price * 1 ether, "Invalid price");
         items[_id].sold = true;
         safeTransferFrom(owner(), msg.sender, _id);
         _asyncTransfer(owner(), items[_id].price);
