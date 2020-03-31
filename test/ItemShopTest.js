@@ -6,7 +6,7 @@ async function checkExeption(promise, message) {
   await promise.then((result) => {
     assert.fail();
   }).catch((err) => {
-    assert.isTrue(err.toString().includes(message));
+    assert.isTrue(err.toString().includes(message), "error-log" + err);
   });
 }
 
@@ -35,7 +35,6 @@ contract('ItemShop', function (accounts) {
     it("unsold test", async function () {
       await obj.mintItem(2);
       item = await obj.getItem(0);
-      console.log(item);
       assert.equal(item[0], 2);
       assert.equal(item[1], false);
     });
@@ -51,7 +50,7 @@ contract('ItemShop', function (accounts) {
     it("sold item", async function () {
       await obj.mintItem(2);
       await obj.buy(0, { value: web3.utils.toWei("2", "ether") });
-      checkExeption(obj.buy(0, { value: 1 }), 'sold out');
+      checkExeption(obj.buy(0, { value: web3.utils.toWei("2", "ether") }), 'sold out');
     });
   });
 });

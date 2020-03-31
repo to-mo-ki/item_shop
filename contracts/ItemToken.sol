@@ -1,9 +1,9 @@
 pragma solidity ^0.6.0;
 
 import "../openzeppelin-contracts/contracts/access/Ownable.sol";
-import "../openzeppelin-contracts/contracts/token/ERC721/ERC721Full.sol";
+import "../openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 
-contract ItemToken is Ownable, ERC721Full {
+contract ItemToken is Ownable, ERC721 {
     struct Item {
         uint256 price;
         bool sold;
@@ -11,7 +11,7 @@ contract ItemToken is Ownable, ERC721Full {
 
     Item[] public items;
 
-    constructor() public ERC721Full("ItemShop", "IS") {}
+    constructor() public ERC721("ItemShop", "IS") {}
 
     function mintItem(uint256 _price) public onlyOwner {
         items.push(Item(_price, false));
@@ -42,7 +42,7 @@ contract ItemToken is Ownable, ERC721Full {
         return items.length;
     }
 
-    function buy(uint256 _id) public payable {
+    function buy(uint256 _id) public payable unsold(_id) {
         items[_id].sold = true;
     }
 
