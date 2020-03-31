@@ -24,29 +24,20 @@ contract('ItemShop', function (accounts) {
       checkExeption(obj.getItem(0), 'Invalid item id');
     });
 
-    it("unsold test", async function () {
-      await obj.mintItem(2);
-      item = await obj.getItem(0);
-      assert.equal(item[0], 2);
-      assert.equal(item[1], false);
-    });
-
-    it("approve test", async function () {
-      await obj.mintItem(2);
-      var approvedAccount = await obj.getApproved(0);
-      assert.equal(approvedAccount, 0x0000000000000000000000000000000000000000);
-      await obj.approve(accounts[1], 0);
-      approvedAccount = await obj.getApproved(0)
-      assert.equal(approvedAccount, accounts[1]);
-    });
-
     it("buy test by other account", async function () {
       await obj.mintItem(2);
-      await obj.approve(accounts[1], 0);
       await obj.buy(0, { value: web3.utils.toWei("2", "ether"), from: accounts[1] });
       item = await obj.getItem(0);
       assert.equal(item[0], 2);
       assert.equal(item[1], true);
+    });
+
+    it("unsold test", async function () {
+      await obj.mintItem(2);
+      item = await obj.getItem(0);
+      console.log(item);
+      assert.equal(item[0], 2);
+      assert.equal(item[1], false);
     });
 
     it("invalid price", async function () {
@@ -59,7 +50,7 @@ contract('ItemShop', function (accounts) {
 
     it("sold item", async function () {
       await obj.mintItem(2);
-      obj.buy(0, { value: 2 });
+      await obj.buy(0, { value: web3.utils.toWei("2", "ether") });
       checkExeption(obj.buy(0, { value: 1 }), 'sold out');
     });
   });
