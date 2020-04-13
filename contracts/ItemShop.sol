@@ -1,8 +1,8 @@
 pragma solidity ^0.6.0;
 
 import "./ItemToken.sol";
-import "../openzeppelin-contracts/contracts/access/Ownable.sol";
-import "../openzeppelin-contracts/contracts/payment/PullPayment.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/@openzeppelin/contracts/payment/PullPayment.sol";
 
 contract ItemShop is Ownable, PullPayment {
     ItemToken public itemToken;

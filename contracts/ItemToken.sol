@@ -1,7 +1,8 @@
 pragma solidity ^0.6.0;
 
-import "../openzeppelin-contracts/contracts/access/Ownable.sol";
-import "../openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
 
 contract ItemToken is Ownable, ERC721 {
     struct Item {
@@ -45,5 +46,4 @@ contract ItemToken is Ownable, ERC721 {
     function buy(uint256 _id) public payable unsold(_id) {
         items[_id].sold = true;
     }
-
 }

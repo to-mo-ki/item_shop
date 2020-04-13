@@ -16,6 +16,7 @@
     "openzeppelin-solidity": "^2.5.0"
   },
   "devDependencies": {
+    "@openzeppelin/contracts": "^3.0.0-rc.1",
     "@openzeppelin/test-helpers": "^0.5.5"
   }
 }
