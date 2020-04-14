@@ -1,6 +1,6 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.5.0;
 
-import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/@openzeppelin/contracts/ownership/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 
@@ -12,7 +12,7 @@ contract ItemToken is Ownable, ERC721 {
 
     Item[] public items;
 
-    constructor() public ERC721("ItemShop", "IS") {}
+    constructor() public {}
 
     function mintItem(uint256 _price) public onlyOwner {
         items.push(Item(_price, false));

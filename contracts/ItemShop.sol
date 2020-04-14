@@ -1,7 +1,7 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.5.0;
 
 import "./ItemToken.sol";
-import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/@openzeppelin/contracts/ownership/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/payment/PullPayment.sol";
 
 contract ItemShop is Ownable, PullPayment {
@@ -12,8 +12,8 @@ contract ItemShop is Ownable, PullPayment {
     }
 
     function withdrawPayments() public onlyOwner{
-        address payable owner = payable(owner());
-        super.withdrawPayments(owner);
+        //address payable owner = payable(owner());
+        //super.withdrawPayments(owner);
     }
     function mintItem(uint256 _price) public onlyOwner {
         itemToken.mintItem(_price);
