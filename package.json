@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@openzeppelin/contracts": "^3.0.0-rc.1",
-    "@openzeppelin/test-helpers": "^0.5.5"
+    "@openzeppelin/test-helpers": "^0.5.5",
+    "truffle-hdwallet-provider": "^1.0.17"
   }
 }

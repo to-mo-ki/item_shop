@@ -15,3 +15,11 @@ faucet 受け取り
 2. 以下のサイトでtweetしたアドレスを貼り付け
 https://faucet.rinkeby.io/
 
+deploy手順
+1. truffle-hdwallet-providerをインストール
+```
+npm install --save-dev truffle-hdwallet-provider
+```
+2. truffle-configを修正
+3. デプロイ
+
