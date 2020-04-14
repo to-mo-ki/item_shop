@@ -12,8 +12,8 @@ contract ItemShop is Ownable, PullPayment {
     }
 
     function withdrawPayments() public onlyOwner{
-        //address payable owner = payable(owner());
-        //super.withdrawPayments(owner);
+        address payable owner = address(uint160(owner()));
+        super.withdrawPayments(owner);
     }
     function mintItem(uint256 _price) public onlyOwner {
         itemToken.mintItem(_price);
