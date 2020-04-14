@@ -24,7 +24,7 @@ npm install --save-dev truffle-hdwallet-provider
 rinkeby: {
   provider: function () {
     return new HDWalletProvider(
-      deployAccount,
+      deployAccount, //秘密鍵
       "https://rinkeby.infura.io/v3/" +  accessToken
     );
   },
@@ -59,3 +59,28 @@ https://medium.com/the-dapps-community/イーサリアムにおけるコンセ�
 
 gethとparity
 https://tomokazu-kozuma.com/difference-between-geth-and-parity-of-ethereum-blockchain-node/
+
+# heroku環境構築手順
+1. アカウント登録
+2. Appを作成する．アプリ名がURLとなる
+3. デプロイ設定をする．
+    1. Deployment method:Github
+    2. レポジトリの指定
+    3. `Enable Automatic Deploys`をクリック 
+4. buildpacksで以下の2つを追加（順番注意）
+    - https://github.com/lstoll/heroku-buildpack-monorepo.git
+    - heroku/nodejs
+5. 環境変数の設定
+    1. heroku CLIのインストール
+    ```
+    brew tap heroku/brew && brew install heroku
+    ```
+    2. herokuへのログイン
+    ```
+    heroku login
+    ```
+    3. 環境変数の設定
+    ```
+    heroku config:set APP_BASE=client -a blockchain-item-shop
+    ```
+※ herokuでは，package.jsonのdevDependenciesはインストールされないので注意
