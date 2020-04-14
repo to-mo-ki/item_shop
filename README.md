@@ -43,3 +43,19 @@ truffle migrate --network rinkeby
 ## 参考サイト
 https://tech.pepabo.com/2017/12/06/erc20-token-on-ropsten/
 
+# 各テストネットの特徴
+https://qiita.com/bokuGucci/items/0fa9b7e840bbc61a4b91
+> ||Ropsten |Kovan |Rinkeby |
+> |:-:|:-:|:-:|:-:|
+> |承認方法  |PoW |PoA |PoA |
+> |利用可能ノード  |geth, parityの両方 |parity |geth |
+> |コイン入手方法 | マイニング, faucet |faucet |faucet|
+> |ブロック生成間隔 |30秒 |4秒 |15秒 |
+> |必要なデータ容量 | 15GB(*1) | 13GB(*1) | 6GB(*1) |
+> (*1) 2018年4月時点
+
+POAについて
+https://medium.com/the-dapps-community/イーサリアムにおけるコンセンサスアルゴリズムは何が結局ベストなのか-729ad817e8d1
+
+gethとparity
+https://tomokazu-kozuma.com/difference-between-geth-and-parity-of-ethereum-blockchain-node/
