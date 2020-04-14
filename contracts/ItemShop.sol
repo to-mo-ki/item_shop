@@ -7,8 +7,8 @@ import "../node_modules/@openzeppelin/contracts/payment/PullPayment.sol";
 contract ItemShop is Ownable, PullPayment {
     ItemToken public itemToken;
 
-    constructor() public {
-        itemToken = new ItemToken();
+    constructor(ItemToken _itemToken) public {
+        itemToken = _itemToken;
     }
 
     function withdrawPayments() public onlyOwner{

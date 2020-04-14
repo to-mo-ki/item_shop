@@ -1,5 +1,8 @@
 var ItemShop = artifacts.require("ItemShop");
+var ItemToken = artifacts.require("ItemToken");
 
 module.exports = function (deployer) {
-  deployer.deploy(ItemShop);
+  deployer.deploy(ItemToken).then(() => {
+    deployer.deploy(ItemShop, ItemToken);
+  });
 };
