@@ -14,7 +14,7 @@ const options = {
   web3: {
     fallback: {
       type: "ws",
-      url: "ws://127.0.0.1:7545",
+      url: "wss://rinkeby.infura.io/ws/v3/61fef65cbb4f4ef5aece697bcb40a9bf",
     },
   },
 };

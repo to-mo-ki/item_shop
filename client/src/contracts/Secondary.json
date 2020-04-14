@@ -1890,7 +1890,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-04-14T03:11:47.059Z",
+  "updatedAt": "2020-04-14T07:12:43.523Z",
   "devdoc": {
     "details": "A Secondary contract can only be used by its primary account (the one that created it).",
     "methods": {
