@@ -6,6 +6,8 @@ import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 
 
 contract ItemShop is Ownable {
+    using Address for address payable;
+
     ItemToken public itemToken;
 
     constructor(ItemToken _itemToken) public {
@@ -25,12 +27,7 @@ contract ItemShop is Ownable {
     }
 
     function withdrawPayments() public onlyOwner {
-        uint256 balance = address(this).balance;
-        Address.sendValue(msg.sender, 1);
-    }
-
-    function sendValue(address payable receiver, uint256 amount) external {
-        Address.sendValue(receiver, amount);
+        msg.sender.sendValue(address(this).balance);
     }
 
     function getItem(uint256 _id) public view returns (uint256, bool) {

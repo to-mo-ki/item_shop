@@ -64,7 +64,7 @@ contract('ItemShop', function (accounts) {
       await obj.withdrawPayments();
       var wei2 = await web3.eth.getBalance(accounts[0]);
       var ether2 = web3.utils.fromWei(wei2, 'ether')
-      expect(ether2 - ether1).to.most(0.0001);
+      expect(ether2 - ether1 - 2).to.most(0.0001);
     });
   });
 });
