@@ -1,6 +1,7 @@
 const delay = time => new Promise(res => setTimeout(() => res(), time))
-
+const { balance, constants, ether, expectRevert, send } = require('@openzeppelin/test-helpers');
 var ItemShop = artifacts.require("ItemShop");
+var ItemToken = artifacts.require("ItemToken");
 
 async function checkExeption(promise, message) {
   await promise.then((result) => {
@@ -14,7 +15,9 @@ contract('ItemShop', function (accounts) {
   var obj;
   describe('getState method', function () {
     beforeEach(async function () {
-      obj = await ItemShop.new();
+      var itemToken = await ItemToken.new();
+      obj = await ItemShop.new(itemToken.address);
+      itemToken.transferOwnership(obj.address);
     });
 
     it("No item test", async function () {
@@ -51,6 +54,17 @@ contract('ItemShop', function (accounts) {
       await obj.mintItem(2);
       await obj.buy(0, { value: web3.utils.toWei("2", "ether") });
       checkExeption(obj.buy(0, { value: web3.utils.toWei("2", "ether") }), 'sold out');
+    });
+
+    it("withdrawPayments", async function () {
+      await obj.mintItem(2);
+      await obj.buy(0, { value: web3.utils.toWei("2", "ether") });
+      var wei1 = await web3.eth.getBalance(accounts[0]);
+      var ether1 = web3.utils.fromWei(wei1, 'ether')
+      await obj.withdrawPayments();
+      var wei2 = await web3.eth.getBalance(accounts[0]);
+      var ether2 = web3.utils.fromWei(wei2, 'ether')
+      expect(ether2 - ether1).to.most(0.0001);
     });
   });
 });

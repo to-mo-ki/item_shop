@@ -12,7 +12,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "@openzeppelin/contracts": "^2.5.0",
     "@openzeppelin/test-helpers": "^0.5.5",

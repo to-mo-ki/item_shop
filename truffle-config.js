@@ -30,7 +30,8 @@ module.exports = {
         optimizer: {
           enabled: true,
           runs: 200
-        }
+        },
+        evmVersion: "petersburg" // invalid opcodeを防ぐ
         //evmVersion: "byzantium"
       }
     }

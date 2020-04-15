@@ -1,8 +1,9 @@
 var ItemShop = artifacts.require("ItemShop");
 var ItemToken = artifacts.require("ItemToken");
 
-module.exports = function (deployer) {
-  deployer.deploy(ItemToken).then(() => {
-    deployer.deploy(ItemShop, ItemToken);
-  });
+module.exports = async (deployer) => {
+  await deployer.deploy(ItemToken);
+  await deployer.deploy(ItemShop, ItemToken.address);
+  itemTokenInstance = await ItemToken.deployed();
+  itemTokenInstance.transferOwnership(ItemShop.address);
 };
