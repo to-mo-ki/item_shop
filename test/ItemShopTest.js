@@ -21,7 +21,7 @@ contract('ItemShop', function (accounts) {
 
     it("buy test by other account", async function () {
       await obj.mintItem(2);
-      await obj.buy(0, { value: web3.utils.toWei("2", "ether"), from: accounts[1] });
+      await obj.buy(0, { value: ether('2'), from: accounts[1] });
       item = await obj.getItem(0);
       assert.equal(item[0], 2);
       assert.equal(item[1], true);
@@ -44,8 +44,8 @@ contract('ItemShop', function (accounts) {
 
     it("sold item", async function () {
       await obj.mintItem(2);
-      await obj.buy(0, { value: web3.utils.toWei("2", "ether") });
-      expectRevert(obj.buy(0, { value: web3.utils.toWei("2", "ether") }), 'sold out');
+      await obj.buy(0, { value: ether('2') });
+      expectRevert(obj.buy(0, { value: ether('2') }), 'sold out');
     });
 
     it("withdrawPayments", async function () {
