@@ -14,10 +14,11 @@ const options = {
   web3: {
     fallback: {
       type: "ws",
-      url: "wss://rinkeby.infura.io/ws/v3/61fef65cbb4f4ef5aece697bcb40a9bf",
+      url: process.env.INFURA_RINKEBY_URL
     },
   },
 };
+
 const drizzleStore = generateStore(options);
 const drizzle = new Drizzle(options, drizzleStore);
 
