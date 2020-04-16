@@ -1,14 +1,18 @@
-const delay = time => new Promise(res => setTimeout(() => res(), time))
-const { balance, constants, ether, expectRevert, send } = require('@openzeppelin/test-helpers');
-var ItemShop = artifacts.require("ItemShop");
-var ItemToken = artifacts.require("ItemToken");
+const { accounts, contract, web3 } = require('@openzeppelin/test-environment');
+const { BN, balance, constants, ether, expectRevert, send, time } = require('@openzeppelin/test-helpers');
+const { expect, assert } = require('chai');
+require('chai').should();
 
-contract('ItemShop', function (accounts) {
+var ItemShop = contract.fromArtifact("ItemShop");
+var ItemToken = contract.fromArtifact("ItemToken");
+
+describe('ItemShop', function () {
+  this.timeout(5000);
   var obj;
   describe('getState method', function () {
     beforeEach(async function () {
       var itemToken = await ItemToken.new();
-      obj = await ItemShop.new(itemToken.address);
+      obj = await ItemShop.new(itemToken.address, 15);
       itemToken.transferOwnership(obj.address);
     });
 
@@ -57,6 +61,26 @@ contract('ItemShop', function (accounts) {
       var wei2 = await web3.eth.getBalance(accounts[0]);
       var ether2 = web3.utils.fromWei(wei2, 'ether')
       expect(ether2 - ether1 - 2).to.most(0.0001);
+    });
+  });
+
+  describe('getAuction', function () {
+    beforeEach(async function () {
+      var itemToken = await ItemToken.new();
+      instance = await ItemShop.new(itemToken.address, 15);
+      itemToken.transferOwnership(instance.address);
+    });
+
+    it("exihibit", async function () {
+      await instance.mintItem(2);
+      await instance.exhibit(0, 11, 22, 33);
+      var auction = await instance.getAuction(0);
+      expect(auction[0]).to.be.bignumber.that.equals('0');
+      expect(auction[1]).to.be.bignumber.that.equals('11');
+      expect(auction[2]).to.be.bignumber.that.equals('22');
+      expect(auction[3]).to.be.bignumber.that.equals('33');
+      expect(auction[4]).to.be.equals(instance.address);
+      expect(auction[5].toString()).to.be.equals((await time.latestBlock()).toString());
     });
   });
 });

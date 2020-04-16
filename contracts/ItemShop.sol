@@ -10,8 +10,57 @@ contract ItemShop is Ownable {
 
     ItemToken public itemToken;
 
-    constructor(ItemToken _itemToken) public {
+    uint256 secondsPerBlock;
+
+    struct Auction {
+        uint256 tokenId;
+        uint256 startPrice;
+        uint256 endPrice;
+        uint256 duration;
+        address owner;
+        uint256 createdAt;
+    }
+
+    Auction[] auctions;
+
+    constructor(ItemToken _itemToken, uint256 _secondsPerBlock) public {
         itemToken = _itemToken;
+        secondsPerBlock = _secondsPerBlock;
+    }
+
+    function exhibit(
+        uint256 tokenId,
+        uint256 startPrice,
+        uint256 endPrice,
+        uint256 duration
+    ) public {
+        uint256 createdAt = block.number;
+        address owner = itemToken.ownerOf(tokenId);
+        Auction memory newAuction = Auction(
+            tokenId,
+            startPrice,
+            endPrice,
+            duration,
+            owner,
+            createdAt
+        );
+        auctions.push(newAuction);
+    }
+
+    function getAuction(uint256 _id)
+        public
+        view
+        returns (uint256, uint256, uint256, uint256, address, uint256)
+    {
+        Auction storage auction = auctions[_id];
+        return (
+            auction.tokenId,
+            auction.startPrice,
+            auction.endPrice,
+            auction.duration,
+            auction.owner,
+            auction.createdAt
+        );
     }
 
     function mintItem(uint256 _price) public onlyOwner {

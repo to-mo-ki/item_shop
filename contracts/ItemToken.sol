@@ -14,10 +14,11 @@ contract ItemToken is Ownable, ERC721 {
 
     constructor() public {}
 
-    function mintItem(uint256 _price) public onlyOwner {
+    function mintItem(uint256 _price) public onlyOwner returns (uint256) {
         items.push(Item(_price, false));
         uint256 newTokenId = items.length - 1;
         _mint(msg.sender, newTokenId);
+        return newTokenId;
     }
 
     modifier validItemId(uint256 itemId) {
