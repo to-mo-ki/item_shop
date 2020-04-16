@@ -64,6 +64,40 @@ describe('ItemShop', function () {
     });
   });
 
+  describe('exhibit', function () {
+    beforeEach(async function () {
+      var itemToken = await ItemToken.new();
+      instance = await ItemShop.new(itemToken.address, 15);
+      itemToken.transferOwnership(instance.address);
+    });
+
+    it("exhibit normally", async function () {
+      await instance.mintItem(2);
+      await instance.exhibit(0, 22, 11, 33);
+    });
+
+    it("reverts when nonexist item", async function () {
+      expectRevert(instance.exhibit(0, 22, 11, 33), "ItemShop: nonexist item id");
+    });
+
+    it("reverts when zero start price", async function () {
+      await instance.mintItem(2);
+      expectRevert(instance.exhibit(0, 0, 11, 33), "ItemShop: zero price");
+      expectRevert(instance.exhibit(0, 11, 0, 33), "ItemShop: zero price");
+    });
+
+    it("reverts when start price is lower than end price", async function () {
+      await instance.mintItem(2);
+      expectRevert(instance.exhibit(0, 11, 22, 33), "ItemShop: start price is lower than end price");
+    });
+
+    it("reverts when zero duration", async function () {
+      await instance.mintItem(2);
+      expectRevert(instance.exhibit(0, 22, 11, 0), "ItemShop: zero duration");
+    });
+
+  });
+
   describe('getAuction', function () {
     beforeEach(async function () {
       var itemToken = await ItemToken.new();
@@ -73,11 +107,11 @@ describe('ItemShop', function () {
 
     it("get exist auction", async function () {
       await instance.mintItem(2);
-      await instance.exhibit(0, 11, 22, 33);
+      await instance.exhibit(0, 22, 11, 33);
       var auction = await instance.getAuction(0);
       expect(auction[0]).to.be.bignumber.that.equals('0');
-      expect(auction[1]).to.be.bignumber.that.equals('11');
-      expect(auction[2]).to.be.bignumber.that.equals('22');
+      expect(auction[1]).to.be.bignumber.that.equals('22');
+      expect(auction[2]).to.be.bignumber.that.equals('11');
       expect(auction[3]).to.be.bignumber.that.equals('33');
       expect(auction[4]).to.be.equals(instance.address);
       expect(auction[5].toString()).to.be.equals((await time.latestBlock()).toString());

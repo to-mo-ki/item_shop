@@ -28,34 +28,19 @@ contract ItemShop is Ownable {
         secondsPerBlock = _secondsPerBlock;
     }
 
-    function exhibit(
-        uint256 tokenId,
-        uint256 startPrice,
-        uint256 endPrice,
-        uint256 duration
-    ) public {
+    function exhibit(uint256 tokenId, uint256 startPrice, uint256 endPrice, uint256 duration) public {
+        require(tokenId < getItemCount(), "ItemShop: nonexist item id");
+        require(startPrice > 0 && endPrice > 0, "ItemShop: zero price");
+        require(startPrice >= endPrice, "ItemShop: start price is lower than end price");
+        require(duration > 0, "ItemShop: zero duration");
         uint256 createdAt = block.number;
         address owner = itemToken.ownerOf(tokenId);
-        Auction memory newAuction = Auction(
-            tokenId,
-            startPrice,
-            endPrice,
-            duration,
-            owner,
-            createdAt
-        );
+        Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
         auctions.push(newAuction);
     }
 
-    function getAuction(uint256 _id)
-        public
-        view
-        returns (uint256, uint256, uint256, uint256, address, uint256)
-    {
-        require(
-            _id >= 0 && _id < auctions.length,
-            "ItemShop: nonexist auction id"
-        );
+    function getAuction(uint256 _id) public view returns (uint256, uint256, uint256, uint256, address, uint256) {
+        require(_id < auctions.length, "ItemShop: nonexist auction id");
         Auction storage auction = auctions[_id];
         return (
             auction.tokenId,
