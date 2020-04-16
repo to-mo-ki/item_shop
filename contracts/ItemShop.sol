@@ -8,10 +8,6 @@ import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 contract ItemShop is Ownable {
     using Address for address payable;
 
-    event mint0();
-    event mint();
-    event mint2();
-
     ItemToken public itemToken;
 
     uint256 secondsPerBlock;
@@ -23,6 +19,7 @@ contract ItemShop is Ownable {
         uint256 duration;
         address owner;
         uint256 createdAt;
+        bool valid;
     }
 
     Auction[] auctions;
@@ -80,6 +77,10 @@ contract ItemShop is Ownable {
 
     function getItemCount() public view returns (uint256) {
         return itemToken.getItemCount();
+    }
+
+    function getAuctionCount() public view returns (uint256) {
+        return auctions.length;
     }
 
     function() external payable {} // sendValue's tests require the contract to hold Ether

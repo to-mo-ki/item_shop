@@ -8,11 +8,24 @@ class ItemList extends Component {
 
   render() {
     const rows = this.props.items.map(function (item, index) {
-      var price = item[0];
+      var tokenId = item[0];
+      var startPrice = item[1];
+      var endPrice = item[2];
+      var duration = item[3];
+      var owner = item[4];
+      var createdAt = item[5];
+
       return <Card key={index}>
         <Card.Body>
           <Card.Title>{index}</Card.Title>
-          <Card.Text>price:{price}</Card.Text>
+          <Card.Text>
+            tokenID:{tokenId}<br />
+            startPrice:{startPrice}<br />
+            endPrice:{endPrice}<br />
+            duration:{duration}<br />
+            owner:{owner}<br />
+            createdAt:{createdAt}<br />
+          </Card.Text>
           <PurchaseButton index={index} item={item} />
         </Card.Body>
       </Card>
