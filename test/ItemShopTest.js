@@ -71,7 +71,7 @@ describe('ItemShop', function () {
       itemToken.transferOwnership(instance.address);
     });
 
-    it("exihibit", async function () {
+    it("get exist auction", async function () {
       await instance.mintItem(2);
       await instance.exhibit(0, 11, 22, 33);
       var auction = await instance.getAuction(0);
@@ -82,5 +82,9 @@ describe('ItemShop', function () {
       expect(auction[4]).to.be.equals(instance.address);
       expect(auction[5].toString()).to.be.equals((await time.latestBlock()).toString());
     });
+
+    it("reverts when get nonexist auction", async function () {
+      expectRevert(instance.getAuction(0), "ItemShop: nonexist auction id")
+    })
   });
 });

@@ -52,6 +52,10 @@ contract ItemShop is Ownable {
         view
         returns (uint256, uint256, uint256, uint256, address, uint256)
     {
+        require(
+            _id >= 0 && _id < auctions.length,
+            "ItemShop: nonexist auction id"
+        );
         Auction storage auction = auctions[_id];
         return (
             auction.tokenId,
