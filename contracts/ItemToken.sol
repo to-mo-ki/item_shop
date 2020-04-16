@@ -31,13 +31,8 @@ contract ItemToken is Ownable, ERC721 {
         _;
     }
 
-    function getItem(uint256 _id)
-        public
-        view
-        validItemId(_id)
-        returns (uint256, bool)
-    {
-        return (items[_id].price, items[_id].sold);
+    function getItem(uint256 _id) public view validItemId(_id) returns (uint256, bool, address) {
+        return (items[_id].price, items[_id].sold, ownerOf(_id));
     }
 
     function getItemCount() public view returns (uint256) {

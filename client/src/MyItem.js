@@ -1,10 +1,14 @@
 import React from "react";
 import ShowMyItem from "./ShowMyItem"
+import ExhibitForm from "./ExhibitForm"
 
 export default class MyItem extends React.Component {
   render() {
     return (
-      <ShowMyItem />
+      <div>
+        <ExhibitForm />
+        <ShowMyItem />
+      </div>
     );
   }
 }
