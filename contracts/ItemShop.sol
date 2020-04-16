@@ -8,6 +8,10 @@ import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 contract ItemShop is Ownable {
     using Address for address payable;
 
+    event mint0();
+    event mint();
+    event mint2();
+
     ItemToken public itemToken;
 
     uint256 secondsPerBlock;
@@ -30,6 +34,7 @@ contract ItemShop is Ownable {
 
     function exhibit(uint256 tokenId, uint256 startPrice, uint256 endPrice, uint256 duration) public {
         require(tokenId < getItemCount(), "ItemShop: nonexist item id");
+        require(itemToken.ownerOf(tokenId) == msg.sender, "ItemShop: exihibit caller is not owner");
         require(startPrice > 0 && endPrice > 0, "ItemShop: zero price");
         require(startPrice >= endPrice, "ItemShop: start price is lower than end price");
         require(duration > 0, "ItemShop: zero duration");
@@ -53,7 +58,8 @@ contract ItemShop is Ownable {
     }
 
     function mintItem(uint256 _price) public onlyOwner {
-        itemToken.mintItem(_price);
+        uint256 itemId = itemToken.mintItem(_price);
+        itemToken.safeTransferFrom(address(this), owner(), itemId);
     }
 
     function buy(uint256 _id) public payable {

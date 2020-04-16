@@ -4088,12 +4088,13 @@
         }
       },
       "links": {},
-      "address": "0xdC2eC595B0c9a747acb0347C5b4dC3E7e87EeFAa",
-      "transactionHash": "0xd0a6d785117b84342e2dde1f86fbefc121d6fbd3075480ae836d01e497aedb5f"
+      "address": "0xF92694844BC6ebD351b370A1d87e5ED645cBA5bd",
+      "transactionHash": "0xec32bbf78a8ee79f5359c54b040b2edc7132a94f153ff74763278283bb51d435"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-04-15T09:43:50.260Z",
+  "updatedAt": "2020-04-16T06:16:16.000Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
