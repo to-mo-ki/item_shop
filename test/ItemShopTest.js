@@ -4,7 +4,6 @@ const { expect, assert } = require('chai');
 require('chai').should();
 
 var ItemShop = contract.fromArtifact("ItemShop");
-var ItemToken = contract.fromArtifact("ItemToken");
 const [deployer, other] = accounts;
 
 describe('ItemShop', function () {
@@ -12,9 +11,7 @@ describe('ItemShop', function () {
   var obj;
   describe('getState method', function () {
     beforeEach(async function () {
-      var itemToken = await ItemToken.new();
-      obj = await ItemShop.new(itemToken.address, 15);
-      itemToken.transferOwnership(obj.address);
+      obj = await ItemShop.new(15);
     });
 
     it("No item test", async function () {
@@ -34,9 +31,7 @@ describe('ItemShop', function () {
 
   describe('exhibit', function () {
     beforeEach(async function () {
-      var itemToken = await ItemToken.new();
-      instance = await ItemShop.new(itemToken.address, 15);
-      itemToken.transferOwnership(instance.address);
+      instance = await ItemShop.new(15);
     });
 
     it("exhibit normally", async function () {
@@ -73,9 +68,7 @@ describe('ItemShop', function () {
 
   describe('getAuction', function () {
     beforeEach(async function () {
-      itemToken = await ItemToken.new();
-      instance = await ItemShop.new(itemToken.address, 15);
-      itemToken.transferOwnership(instance.address);
+      instance = await ItemShop.new(15);
     });
 
     it("get exist auction", async function () {
@@ -121,9 +114,7 @@ describe('ItemShop', function () {
   describe('get current price by Id', function () {
     context("startPrice=20, endPrice=10, duration=100, secondsPerBlock=1", function () {
       beforeEach(async function () {
-        itemToken = await ItemToken.new();
-        instance = await ItemShop.new(itemToken.address, 1);
-        itemToken.transferOwnership(instance.address);
+        instance = await ItemShop.new(1);
         await instance.mintItem(2);
         await instance.exhibit(0, 20, 10, 10);
       });
@@ -146,9 +137,7 @@ describe('ItemShop', function () {
 
     context("startPrice=20, endPrice=10, duration=100, secondsPerBlock=2", function () {
       beforeEach(async function () {
-        itemToken = await ItemToken.new();
-        instance = await ItemShop.new(itemToken.address, 2);
-        itemToken.transferOwnership(instance.address);
+        instance = await ItemShop.new(2);
         await instance.mintItem(2);
         await instance.exhibit(0, 20, 10, 10);
       });

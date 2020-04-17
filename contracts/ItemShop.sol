@@ -5,10 +5,8 @@ import "../node_modules/@openzeppelin/contracts/ownership/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 
 
-contract ItemShop is Ownable {
+contract ItemShop is ItemToken {
     using Address for address payable;
-
-    ItemToken public itemToken;
 
     uint256 secondsPerBlock;
 
@@ -25,19 +23,18 @@ contract ItemShop is Ownable {
 
     mapping(uint256 => bool) public valid;
 
-    constructor(ItemToken _itemToken, uint256 _secondsPerBlock) public {
-        itemToken = _itemToken;
+    constructor(uint256 _secondsPerBlock) public {
         secondsPerBlock = _secondsPerBlock;
     }
 
     function exhibit(uint256 tokenId, uint256 startPrice, uint256 endPrice, uint256 duration) public {
         require(tokenId < getItemCount(), "ItemShop: nonexist item id");
-        require(itemToken.ownerOf(tokenId) == msg.sender, "ItemShop: exihibit caller is not owner");
+        require(ownerOf(tokenId) == msg.sender, "ItemShop: exihibit caller is not owner");
         require(startPrice > 0 && endPrice > 0, "ItemShop: zero price");
         require(startPrice >= endPrice, "ItemShop: start price is lower than end price");
         require(duration > 0, "ItemShop: zero duration");
         uint256 createdAt = block.number * secondsPerBlock;
-        address owner = itemToken.ownerOf(tokenId);
+        address owner = ownerOf(tokenId);
         Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
         uint256 newId = auctions.push(newAuction) - 1;
         valid[newId] = true;
@@ -88,29 +85,16 @@ contract ItemShop is Ownable {
             );
     }
 
-    function mintItem(uint256 _price) public onlyOwner {
-        uint256 itemId = itemToken.mintItem(_price);
-        itemToken.safeTransferFrom(address(this), owner(), itemId);
-    }
-
     function buy(uint256 _id) public payable {
         uint256 price;
-        (price, , ) = itemToken.getItem(_id);
+        (price, , ) = getItem(_id);
         require(msg.value == price * 1 ether, "Invalid price");
-        itemToken.buy(_id);
-        itemToken.safeTransferFrom(address(this), msg.sender, _id);
+        buy(_id);
+        safeTransferFrom(address(this), msg.sender, _id);
     }
 
     function withdrawPayments() public onlyOwner {
         msg.sender.sendValue(address(this).balance);
-    }
-
-    function getItem(uint256 _id) public view returns (uint256, bool, address) {
-        return itemToken.getItem(_id);
-    }
-
-    function getItemCount() public view returns (uint256) {
-        return itemToken.getItemCount();
     }
 
     function getAuctionCount() public view returns (uint256) {

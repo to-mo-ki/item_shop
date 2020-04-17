@@ -9,8 +9,5 @@ module.exports = async (deployer, network) => {
   } else {
     secondsPerBlock = 1;
   }
-  await deployer.deploy(ItemToken);
-  await deployer.deploy(ItemShop, ItemToken.address, secondsPerBlock);
-  itemTokenInstance = await ItemToken.deployed();
-  itemTokenInstance.transferOwnership(ItemShop.address);
+  await deployer.deploy(ItemShop, secondsPerBlock);
 };
