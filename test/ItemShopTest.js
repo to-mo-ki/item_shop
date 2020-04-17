@@ -87,7 +87,7 @@ describe('ItemShop', function () {
       expect(auction[2]).to.be.bignumber.that.equals('11');
       expect(auction[3]).to.be.bignumber.that.equals('33');
       expect(auction[4]).to.be.equals(await instance.owner());
-      expect(auction[5].toString()).to.be.equals((await time.latestBlock()).toString());
+      expect(auction[5].toString()).to.be.equals((await time.latestBlock() * 15).toString());
     });
 
     it("reverts when get nonexist auction", async function () {
@@ -95,4 +95,78 @@ describe('ItemShop', function () {
     })
   });
 
+  describe('get current price', async function () {
+    it("startPrice=20, endPrice=10, duration=100, createdAt=100, now=100", async function () {
+      var price = await instance.getCurrentPrice(20, 10, 100, 100, 100);
+      expect(price).to.be.bignumber.that.equals('20');
+    });
+    it("startPrice=20, endPrice=10, duration=100, createdAt=100, now=110", async function () {
+      var price = await instance.getCurrentPrice(20, 10, 100, 100, 110);
+      expect(price).to.be.bignumber.that.equals('19');
+    });
+    it("startPrice=20, endPrice=10, duration=100, createdAt=100, now=150", async function () {
+      var price = await instance.getCurrentPrice(20, 10, 100, 100, 150);
+      expect(price).to.be.bignumber.that.equals('15');
+    });
+    it("startPrice=20, endPrice=10, duration=100, createdAt=100, now=200", async function () {
+      var price = await instance.getCurrentPrice(20, 10, 100, 100, 200);
+      expect(price).to.be.bignumber.that.equals('10');
+    });
+    it("startPrice=20, endPrice=10, duration=100, createdAt=100, now=210", async function () {
+      var price = await instance.getCurrentPrice(20, 10, 100, 100, 210);
+      expect(price).to.be.bignumber.that.equals('10');
+    });
+  });
+
+  describe('get current price by Id', function () {
+    context("startPrice=20, endPrice=10, duration=100, secondsPerBlock=1", function () {
+      beforeEach(async function () {
+        itemToken = await ItemToken.new();
+        instance = await ItemShop.new(itemToken.address, 1);
+        itemToken.transferOwnership(instance.address);
+        await instance.mintItem(2);
+        await instance.exhibit(0, 20, 10, 10);
+      });
+      it("passed=0", async function () {
+        var price = await instance.getCurrentPriceById(0);
+        expect(price).to.be.bignumber.that.equals('20');
+      });
+      it("passed=1", async function () {
+        await time.advanceBlock();
+        var price = await instance.getCurrentPriceById(0);
+        expect(price).to.be.bignumber.that.equals('19');
+      });
+      it("passed=2", async function () {
+        await time.advanceBlock();
+        await time.advanceBlock();
+        var price = await instance.getCurrentPriceById(0);
+        expect(price).to.be.bignumber.that.equals('18');
+      });
+    });
+
+    context("startPrice=20, endPrice=10, duration=100, secondsPerBlock=2", function () {
+      beforeEach(async function () {
+        itemToken = await ItemToken.new();
+        instance = await ItemShop.new(itemToken.address, 2);
+        itemToken.transferOwnership(instance.address);
+        await instance.mintItem(2);
+        await instance.exhibit(0, 20, 10, 10);
+      });
+      it("passed=0", async function () {
+        var price = await instance.getCurrentPriceById(0);
+        expect(price).to.be.bignumber.that.equals('20');
+      });
+      it("passed=1", async function () {
+        await time.advanceBlock();
+        var price = await instance.getCurrentPriceById(0);
+        expect(price).to.be.bignumber.that.equals('18');
+      });
+      it("passed=2", async function () {
+        await time.advanceBlock();
+        await time.advanceBlock();
+        var price = await instance.getCurrentPriceById(0);
+        expect(price).to.be.bignumber.that.equals('16');
+      });
+    });
+  });
 });

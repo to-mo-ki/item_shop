@@ -36,7 +36,7 @@ contract ItemShop is Ownable {
         require(startPrice > 0 && endPrice > 0, "ItemShop: zero price");
         require(startPrice >= endPrice, "ItemShop: start price is lower than end price");
         require(duration > 0, "ItemShop: zero duration");
-        uint256 createdAt = block.number;
+        uint256 createdAt = block.number * secondsPerBlock;
         address owner = itemToken.ownerOf(tokenId);
         Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
         uint256 newId = auctions.push(newAuction) - 1;
@@ -54,6 +54,38 @@ contract ItemShop is Ownable {
             auction.owner,
             auction.createdAt
         );
+    }
+
+    function getCurrentPrice(
+        uint256 startPrice,
+        uint256 endPrice,
+        uint256 duration,
+        uint256 createdAt,
+        uint256 nowSecond
+    ) public pure returns (uint256) {
+        uint256 secondsPassed = nowSecond - createdAt;
+        if (secondsPassed >= duration) {
+            return endPrice;
+        }
+        uint256 totalPriceChange = startPrice - endPrice;
+        uint256 currentPriceChange = (totalPriceChange * secondsPassed) / duration;
+        uint256 currentPrice = startPrice - currentPriceChange;
+
+        return currentPrice;
+    }
+
+    function getCurrentPriceById(uint256 _id) public view returns (uint256) {
+        // revertで書き換え
+        if (!valid[_id]) return 0;
+        Auction storage auction = auctions[_id];
+        return
+            getCurrentPrice(
+                auction.startPrice,
+                auction.endPrice,
+                auction.duration,
+                auction.createdAt,
+                block.number * secondsPerBlock
+            );
     }
 
     function mintItem(uint256 _price) public onlyOwner {

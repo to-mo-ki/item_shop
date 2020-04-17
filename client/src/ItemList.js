@@ -8,15 +8,15 @@ class ItemList extends Component {
 
   render() {
     var valids = this.props.valids;
+    var prices = this.props.prices;
     const rows = this.props.items.map(function (item, index) {
+      if (!valids[index]) return null;
       var tokenId = item[0];
       var startPrice = item[1];
       var endPrice = item[2];
       var duration = item[3];
       var owner = item[4];
       var createdAt = item[5];
-      var valid = valids[index]
-      if (!valid) return null;
       return <Card key={index}>
         <Card.Body>
           <Card.Title>{index}</Card.Title>
@@ -27,6 +27,7 @@ class ItemList extends Component {
             duration:{duration}<br />
             owner:{owner}<br />
             createdAt:{createdAt}<br />
+            price:{prices[index]}<br />
           </Card.Text>
           <PurchaseButton index={index} item={item} />
         </Card.Body>
@@ -49,6 +50,7 @@ const withContext = props => (
         drizzleState={drizzleState}
         items={props.items}
         valids={props.valids}
+        prices={props.prices}
       />
     )}
   </DrizzleContext.Consumer>
