@@ -8,7 +8,7 @@ var ItemToken = contract.fromArtifact("ItemToken");
 const [deployer, other] = accounts;
 
 describe('ItemShop', function () {
-  this.timeout(5000);
+  this.timeout(10000);
   var obj;
   describe('getState method', function () {
     beforeEach(async function () {
@@ -94,4 +94,5 @@ describe('ItemShop', function () {
       expectRevert(instance.getAuction(0), "ItemShop: nonexist auction id")
     })
   });
+
 });

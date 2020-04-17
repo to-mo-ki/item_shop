@@ -10,9 +10,10 @@ class ShowMyItem extends Component {
 
   render() {
     const { ItemShop } = this.props.drizzleState.contracts;
-    const Items = this.props.dataKeys.map(key =>
+    const Items = this.props.myItemKeys.map(key =>
       ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
     );
+    console.log(Items)
     return <MyItemList items={Items} account={this.props.drizzleState.accounts[0]} />;
   }
 }
@@ -21,11 +22,11 @@ const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
       <ItemShopKeyContext.Consumer>
-        {({ dataKeys, fetchItemKeys }) => (
+        {({ myItemKeys, fetchItemKeys }) => (
           <ShowMyItem
             drizzle={drizzle}
             drizzleState={drizzleState}
-            dataKeys={dataKeys}
+            myItemKeys={myItemKeys}
             fetchItemKeys={fetchItemKeys}
           />
         )}

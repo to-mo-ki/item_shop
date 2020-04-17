@@ -7,6 +7,7 @@ import PurchaseButton from './PurchaceButton';
 class ItemList extends Component {
 
   render() {
+    var valids = this.props.valids;
     const rows = this.props.items.map(function (item, index) {
       var tokenId = item[0];
       var startPrice = item[1];
@@ -14,7 +15,8 @@ class ItemList extends Component {
       var duration = item[3];
       var owner = item[4];
       var createdAt = item[5];
-
+      var valid = valids[index]
+      if (!valid) return null;
       return <Card key={index}>
         <Card.Body>
           <Card.Title>{index}</Card.Title>
@@ -46,6 +48,7 @@ const withContext = props => (
         drizzle={drizzle}
         drizzleState={drizzleState}
         items={props.items}
+        valids={props.valids}
       />
     )}
   </DrizzleContext.Consumer>

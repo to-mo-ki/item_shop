@@ -35,13 +35,8 @@ class PurchaseButton extends Component {
     var button;
     var item = this.props.item;
     var index = this.props.index;
-    var sold = item[1];
     var price = item[0];
-    if (sold) {
-      button = <Button variant="primary" disabled>sold out</Button>;
-    } else {
-      button = <Button variant="primary" onClick={() => this.onClick(index, price)}>buy</Button>;
-    }
+    button = <Button variant="primary" onClick={() => this.onClick(index, price)}>buy</Button>;
     return (<div>
       {button}
       {this.getTxStatus()}

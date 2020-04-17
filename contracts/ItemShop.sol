@@ -19,10 +19,11 @@ contract ItemShop is Ownable {
         uint256 duration;
         address owner;
         uint256 createdAt;
-        bool valid;
     }
 
     Auction[] auctions;
+
+    mapping(uint256 => bool) public valid;
 
     constructor(ItemToken _itemToken, uint256 _secondsPerBlock) public {
         itemToken = _itemToken;
@@ -38,7 +39,8 @@ contract ItemShop is Ownable {
         uint256 createdAt = block.number;
         address owner = itemToken.ownerOf(tokenId);
         Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
-        auctions.push(newAuction);
+        uint256 newId = auctions.push(newAuction) - 1;
+        valid[newId] = true;
     }
 
     function getAuction(uint256 _id) public view returns (uint256, uint256, uint256, uint256, address, uint256) {
