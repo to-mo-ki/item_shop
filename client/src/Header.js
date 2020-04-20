@@ -12,6 +12,9 @@ export default class Header extends React.Component {
         <Nav.Item>
           <Nav.Link href="/my-item">My Item</Nav.Link>
         </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/admin">管理者ページ</Nav.Link>
+        </Nav.Item>
       </Nav>
     );
   }

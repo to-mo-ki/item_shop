@@ -16,8 +16,8 @@ describe('ItemShop', function () {
     it("No item test", async function () {
       count = await obj.getItemCount();
       assert.equal(count, 0);
-      expectRevert(obj.buy(0, { value: 1 }), 'Invalid item id');
-      expectRevert(obj.getItem(0), 'Invalid item id');
+      await expectRevert(obj.buy(0, { value: 1 }), 'Invalid item id');
+      await expectRevert(obj.getItem(0), 'Invalid item id');
     });
 
     it("unsold test", async function () {
@@ -39,28 +39,28 @@ describe('ItemShop', function () {
     });
 
     it("reverts when nonexist item", async function () {
-      expectRevert(instance.exhibit(0, 22, 11, 33), "ItemShop: nonexist item id");
+      await expectRevert(instance.exhibit(0, 22, 11, 33), "ItemShop: nonexist item id");
     });
 
     it("reverts when exihibit caller is not owner", async function () {
       await instance.mintItem(2);
-      expectRevert(instance.exhibit(0, 22, 11, 33, { from: accounts[0] }), "ItemShop: exihibit caller is not owner");
+      await expectRevert(instance.exhibit(0, 22, 11, 33, { from: accounts[0] }), "ItemShop: exihibit caller is not owner");
     });
 
     it("reverts when zero start price", async function () {
       await instance.mintItem(2);
-      expectRevert(instance.exhibit(0, 0, 11, 33), "ItemShop: zero price");
-      expectRevert(instance.exhibit(0, 11, 0, 33), "ItemShop: zero price");
+      await expectRevert(instance.exhibit(0, 0, 11, 33), "ItemShop: zero price");
+      await expectRevert(instance.exhibit(0, 11, 0, 33), "ItemShop: zero price");
     });
 
     it("reverts when start price is lower than end price", async function () {
       await instance.mintItem(2);
-      expectRevert(instance.exhibit(0, 11, 22, 33), "ItemShop: start price is lower than end price");
+      await expectRevert(instance.exhibit(0, 11, 22, 33), "ItemShop: start price is lower than end price");
     });
 
     it("reverts when zero duration", async function () {
       await instance.mintItem(2);
-      expectRevert(instance.exhibit(0, 22, 11, 0), "ItemShop: zero duration");
+      await expectRevert(instance.exhibit(0, 22, 11, 0), "ItemShop: zero duration");
     });
 
   });
@@ -83,7 +83,7 @@ describe('ItemShop', function () {
     });
 
     it("reverts when get nonexist auction", async function () {
-      expectRevert(instance.getAuction(0), "ItemShop: nonexist auction id")
+      await expectRevert(instance.getAuction(0), "ItemShop: nonexist auction id")
     })
   });
 
@@ -173,11 +173,31 @@ describe('ItemShop', function () {
     });
 
     it("revert when bid invalid price", async function () {
-      expectRevert(instance.bid(0, { value: ether('18'), from: bidder }), "ItemShop: invalid price");
+      await expectRevert(instance.bid(0, { value: ether('18'), from: bidder }), "ItemShop: invalid price");
     });
     it("reverts when bid invalid auction", async function () {
-      expectRevert(instance.bid(1, { value: ether('19'), from: bidder }), "ItemShop: invalid auction id")
+      await expectRevert(instance.bid(1, { value: ether('19'), from: bidder }), "ItemShop: invalid auction")
     });
+  });
+
+  describe("withdrawPayments", function () {
+    const deployer = accounts[0];
+    const user = accounts[1];
+    it("normal test", async function () {
+      const instance = await ItemShop.new(1, { from: deployer });
+      send.ether(user, instance.address, ether('2'));
+      const contractTracker = await balance.tracker(instance.address);
+      const deployerTracker = await balance.tracker(deployer);
+      await instance.withdrawPayments({ from: deployer });
+      expect(await contractTracker.delta()).to.be.bignumber.that.equals(ether('-2'));
+      expect(await deployerTracker.delta()).to.be.bignumber.that.closeTo(ether('2'), '1000000000000000');
+    });
+
+    it("revert when non-owner withdrawPayments", async function () {
+      const instance = await ItemShop.new(1, { from: deployer });
+      await expectRevert(instance.withdrawPayments({ from: user }), "Ownable: caller is not the owner")
+    });
+
   });
 
 });
