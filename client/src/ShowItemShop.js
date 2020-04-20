@@ -11,9 +11,16 @@ class ShowItemShop extends Component {
   render() {
     const { ItemShop } = this.props.drizzleState.contracts;
     const Items = this.props.dataKeys.map(key =>
-      ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
+      ItemShop.getAuction[key] ? ItemShop.getAuction[key].value : []
     );
-    return <ItemList items={Items} />;
+
+    const valids = this.props.validKeys.map(key =>
+      ItemShop.valid[key] ? ItemShop.valid[key].value : []
+    );
+    const prices = this.props.priceKeys.map(key =>
+      ItemShop.getCurrentPriceById[key] ? ItemShop.getCurrentPriceById[key].value : []
+    );
+    return <ItemList items={Items} valids={valids} prices={prices} />;
   }
 }
 
@@ -21,11 +28,13 @@ const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
       <ItemShopKeyContext.Consumer>
-        {({ dataKeys, fetchItemKeys }) => (
+        {({ dataKeys, validKeys, priceKeys, fetchItemKeys }) => (
           <ShowItemShop
             drizzle={drizzle}
             drizzleState={drizzleState}
             dataKeys={dataKeys}
+            validKeys={validKeys}
+            priceKeys={priceKeys}
             fetchItemKeys={fetchItemKeys}
           />
         )}

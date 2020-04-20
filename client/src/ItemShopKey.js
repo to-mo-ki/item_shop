@@ -7,14 +7,27 @@ class Provider extends React.Component {
     super(props);
 
     this.fetchItemKeys = async (contract) => {
-      const length = await contract.methods.getItemCount().call();
+      const length = await contract.methods.getAuctionCount().call();
       const dataKeys = [];
+      const validKeys = [];
+      const priceKeys = [];
       for (let i = 0; i < length; i++) {
-        dataKeys.push(contract.methods.getItem.cacheCall(i));
+        dataKeys.push(contract.methods.valid.cacheCall(i));
+        validKeys.push(contract.methods.getAuction.cacheCall(i));
+        priceKeys.push(contract.methods.getCurrentPriceById.cacheCall(i));
       }
+      const itemLength = await contract.methods.getItemCount().call();
+      const myItemKeys = [];
+      for (let i = 0; i < itemLength; i++) {
+        myItemKeys.push(contract.methods.getItem.cacheCall(i));
+      }
+
       this.setState({
         ...this.state,
         dataKeys,
+        validKeys,
+        priceKeys,
+        myItemKeys
       });
     };
 
@@ -27,6 +40,9 @@ class Provider extends React.Component {
 
     this.state = {
       dataKeys: [],
+      validKeys: [],
+      priceKeys: [],
+      myItemKeys: [],
       fetchItemKeys: this.fetchItemKeys,
       isFetchingItem: false,
       turnFetchStatus: this.turnFetchStatus,

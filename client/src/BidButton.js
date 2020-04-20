@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
 import Button from 'react-bootstrap/Button';
 
-class PurchaseButton extends Component {
+class BidButton extends Component {
   state = { stackId: null };
 
   constructor(props) {
@@ -11,7 +11,7 @@ class PurchaseButton extends Component {
       const { drizzle, drizzleState } = this.props;
       const contract = drizzle.contracts.ItemShop;
       const weiPrice = drizzle.web3.utils.toWei(price, "ether");
-      const stackId = contract.methods.buy(index).send({
+      const stackId = contract.methods.bid.cacheSend(index, {
         value: weiPrice,
         from: drizzleState.accounts[0],
       });
@@ -33,15 +33,9 @@ class PurchaseButton extends Component {
 
   render() {
     var button;
-    var item = this.props.item;
+    var price = this.props.price;
     var index = this.props.index;
-    var sold = item[1];
-    var price = item[0];
-    if (sold) {
-      button = <Button variant="primary" disabled>sold out</Button>;
-    } else {
-      button = <Button variant="primary" onClick={() => this.onClick(index, price)}>buy</Button>;
-    }
+    button = <Button variant="primary" onClick={() => this.onClick(index, price)}>buy</Button>;
     return (<div>
       {button}
       {this.getTxStatus()}
@@ -52,10 +46,10 @@ class PurchaseButton extends Component {
 const withContext = props => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
-      <PurchaseButton
+      <BidButton
         drizzle={drizzle}
         drizzleState={drizzleState}
-        item={props.item}
+        price={props.price}
         index={props.index}
       />
     )}
