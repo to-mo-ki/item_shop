@@ -6,6 +6,8 @@ import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 
 
 contract ItemShop is ItemToken {
+    event Exhibit(uint256 _id);
+    event Bid(uint256 _id);
     using Address for address payable;
 
     uint256 secondsPerBlock;
@@ -39,6 +41,7 @@ contract ItemShop is ItemToken {
         uint256 newId = auctions.push(newAuction) - 1;
         valid[newId] = true;
         approve(address(this), tokenId);
+        emit Exhibit(newId);
     }
 
     function getAuction(uint256 _id) public view returns (uint256, uint256, uint256, uint256, address, uint256) {
@@ -81,6 +84,7 @@ contract ItemShop is ItemToken {
         delete valid[_id];
         uint256 tokenId = auction.tokenId;
         this.safeTransferFrom(owner, msg.sender, tokenId);
+        emit Bid(_id);
     }
 
     function getCurrentPriceById(uint256 _id) public view returns (uint256) {
