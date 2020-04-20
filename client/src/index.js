@@ -14,7 +14,7 @@ const options = {
   web3: {
     fallback: {
       type: "ws",
-      url: process.env.INFURA_RINKEBY_URL
+      url: process.env.REACT_APP_INFURA_URL
     },
   },
 };
