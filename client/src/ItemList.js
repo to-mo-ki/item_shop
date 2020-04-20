@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
-import PurchaseButton from './PurchaceButton';
+import BidButton from './BidButton';
 
 class ItemList extends Component {
 
@@ -29,7 +29,7 @@ class ItemList extends Component {
             createdAt:{createdAt}<br />
             price:{prices[index]}<br />
           </Card.Text>
-          <PurchaseButton index={index} item={item} />
+          <BidButton index={index} price={prices[index]} />
         </Card.Body>
       </Card>
     });

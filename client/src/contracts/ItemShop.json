@@ -12009,12 +12009,13 @@
         }
       },
       "links": {},
-      "address": "0xa249b1d3B2B99e55AEdb81fFd4ca44dB0c8EcEaA",
-      "transactionHash": "0x6a7da207c36a452ad5e968fb65367203cf97c3d81c6a6d169a4088e7786f84c8"
+      "address": "0xAE1acC1428D16697Cd2E72a1a3EE57B0F95c5daA",
+      "transactionHash": "0xdd1febc309897d8898eb5e3995d6008c9920a38cb2ca6023a9be1300dc454584"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-04-20T02:23:01.613Z",
+  "updatedAt": "2020-04-20T02:34:59.761Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
