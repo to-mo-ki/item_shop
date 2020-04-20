@@ -4,7 +4,6 @@ const { expect, assert } = require('chai');
 require('chai').should();
 
 var ItemShop = contract.fromArtifact("ItemShop");
-const [deployer, other] = accounts;
 
 describe('ItemShop', function () {
   this.timeout(10000);
@@ -158,4 +157,27 @@ describe('ItemShop', function () {
       });
     });
   });
+
+  describe('bid', function () {
+    const exhibitor = accounts[0];
+    const bidder = accounts[1];
+    beforeEach(async function () {
+      instance = await ItemShop.new(1, { from: exhibitor });
+      await instance.mintItem(2, { from: exhibitor });
+      await instance.exhibit(0, 20, 10, 10, { from: exhibitor });
+    });
+    it("normal", async function () {
+      tracker2 = await balance.tracker(bidder);
+      await instance.bid(0, { value: ether('19'), from: bidder });
+      expect(await tracker2.delta()).to.be.bignumber.that.closeTo(ether('-19'), '1000000000000000');
+    });
+
+    it("revert when bid invalid price", async function () {
+      expectRevert(instance.bid(0, { value: ether('18'), from: bidder }), "ItemShop: invalid price");
+    });
+    it("reverts when bid invalid auction", async function () {
+      expectRevert(instance.bid(1, { value: ether('19'), from: bidder }), "ItemShop: invalid auction id")
+    });
+  });
+
 });

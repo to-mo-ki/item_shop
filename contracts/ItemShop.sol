@@ -38,6 +38,7 @@ contract ItemShop is ItemToken {
         Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
         uint256 newId = auctions.push(newAuction) - 1;
         valid[newId] = true;
+        approve(address(this), tokenId);
     }
 
     function getAuction(uint256 _id) public view returns (uint256, uint256, uint256, uint256, address, uint256) {
@@ -69,6 +70,17 @@ contract ItemShop is ItemToken {
         uint256 currentPrice = startPrice - currentPriceChange;
 
         return currentPrice;
+    }
+
+    function bid(uint256 _id) public payable {
+        require(valid[_id], "ItemShop: invalid auction");
+        uint256 price = getCurrentPriceById(_id);
+        require(msg.value >= price * 1 ether, "ItemShop: invalid price");
+        Auction storage auction = auctions[_id];
+        address payable owner = address(uint160(auction.owner));
+        delete valid[_id];
+        uint256 tokenId = auction.tokenId;
+        this.safeTransferFrom(owner, msg.sender, tokenId);
     }
 
     function getCurrentPriceById(uint256 _id) public view returns (uint256) {
