@@ -8,8 +8,9 @@ import { Drizzle, generateStore } from '@drizzle/store';
 import { DrizzleContext } from '@drizzle/react-plugin';
 import ItemShop from './contracts/ItemShop.json';
 import ItemShopKeyContext from './ItemShopKey';
+import appMiddlewares from './middleware'
 
-const options = {
+const drizzleOptions = {
   contracts: [ItemShop],
   web3: {
     fallback: {
@@ -17,10 +18,13 @@ const options = {
       url: process.env.REACT_APP_INFURA_URL
     },
   },
+  events: {
+    ItemShop: ["Transfer", "Bid", "Exhibit"],
+  },
 };
 
-const drizzleStore = generateStore(options);
-const drizzle = new Drizzle(options, drizzleStore);
+const drizzleStore = generateStore({ drizzleOptions, appMiddlewares, disableReduxDevTools: false });
+const drizzle = new Drizzle(drizzleOptions, drizzleStore);
 
 ReactDOM.render(
   <DrizzleContext.Provider drizzle={drizzle}>

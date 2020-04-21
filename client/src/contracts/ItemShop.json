@@ -12416,15 +12416,42 @@
           ],
           "name": "Transfer",
           "type": "event"
+        },
+        "0x7a183e84509e3fe5b0b3aac15347fd1c7d71fd1503001f1a1d7c9658077eb35f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_id",
+              "type": "uint256"
+            }
+          ],
+          "name": "Bid",
+          "type": "event"
+        },
+        "0xc7563c05ae82d139a49da022e12939acb0b80206e72786aa5adf9c2726650f02": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_id",
+              "type": "uint256"
+            }
+          ],
+          "name": "Exhibit",
+          "type": "event"
         }
       },
       "links": {},
-      "address": "0x49baEC7bf9daCA6D1f974B59a0c1fedb3102A076",
-      "transactionHash": "0x3d7f02601f8920068b99637af091b7fbb70a37542731bf7c4f9435f40955db55"
+      "address": "0xe6A78BFCa33fc04b18dd4B7b3EcE9F79D53922d1",
+      "transactionHash": "0x134ddd5f432b4b7dab05704c5fcd7cf5fc54dd22241ed41adf92d59a82e37ba4"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-04-20T09:57:59.692Z",
+  "updatedAt": "2020-04-21T01:16:47.694Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {

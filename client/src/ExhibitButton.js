@@ -27,7 +27,6 @@ class ExhibitButton extends Component {
 
   render() {
     var { index, startPrice, endPrice, duration } = this.props;
-    console.log(this.props);
     var button = <Button variant="primary" onClick={() => this.onClick(index, startPrice, endPrice, duration)}>Exihibit</Button>;
     return (<div>
       {button}

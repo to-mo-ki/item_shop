@@ -13,7 +13,6 @@ class ShowMyItem extends Component {
     const Items = this.props.myItemKeys.map(key =>
       ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
     );
-    console.log(Items)
     return <MyItemList items={Items} account={this.props.drizzleState.accounts[0]} />;
   }
 }
