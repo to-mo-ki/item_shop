@@ -75,7 +75,7 @@ contract ItemShop is ItemToken {
     function bid(uint256 _id) public payable {
         require(valid[_id], "ItemShop: invalid auction");
         uint256 price = getCurrentPriceById(_id);
-        require(msg.value >= price * 1 ether, "ItemShop: invalid price");
+        require(msg.value >= price, "ItemShop: invalid price");
         Auction storage auction = auctions[_id];
         address payable owner = address(uint160(auction.owner));
         delete valid[_id];
@@ -100,7 +100,7 @@ contract ItemShop is ItemToken {
     function buy(uint256 _id) public payable {
         uint256 price;
         (price, , ) = getItem(_id);
-        require(msg.value == price * 1 ether, "Invalid price");
+        require(msg.value == price, "Invalid price");
         buy(_id);
         safeTransferFrom(address(this), msg.sender, _id);
     }
