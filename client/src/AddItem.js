@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
 import ItemKeyContext from './ItemShopKey';
+import ipfs from './ipfs';
 
 class AddItem extends Component {
   state = { stackId: null };
@@ -11,7 +12,9 @@ class AddItem extends Component {
     }
   };
 
-  addItem = value => {
+  addItem = async (value) => {
+    await this.uploadIpfs(value);
+
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.ItemShop;
     console.log(drizzleState.accounts);
@@ -21,6 +24,20 @@ class AddItem extends Component {
     });
     this.setState({ stackId });
     this.props.turnFetchStatus(true);
+  };
+
+  uploadIpfs = async (value) => {
+    const content = JSON.stringify({
+      name: value,
+      description: "",
+      image: ""
+    });
+    var result = [];
+    for await (var res of ipfs.add(content)) {
+      result.push(res);
+    }
+    const hash = await result[0].cid.string;
+    console.log(hash);
   };
 
   getTxStatus = () => {
