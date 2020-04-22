@@ -10,8 +10,9 @@ class ExhibitButton extends Component {
     this.onClick = (index, startPrice, endPrice, duration) => {
       const { drizzle, drizzleState } = this.props;
       const contract = drizzle.contracts.ItemShop;
-
-      const stackId = contract.methods.exhibit.cacheSend(index, startPrice, endPrice, duration, {
+      const startWeiPrice = drizzle.web3.utils.toWei(startPrice, "ether");
+      const endWeiPrice = drizzle.web3.utils.toWei(endPrice, "ether");
+      const stackId = contract.methods.exhibit.cacheSend(index, startWeiPrice, endWeiPrice, duration, {
         from: drizzleState.accounts[0],
       });
       this.setState({ stackId });

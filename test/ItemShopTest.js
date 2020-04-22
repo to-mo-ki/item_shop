@@ -164,7 +164,7 @@ describe('ItemShop', function () {
     beforeEach(async function () {
       instance = await ItemShop.new(1, { from: exhibitor });
       await instance.mintItem(2, { from: exhibitor });
-      await instance.exhibit(0, 20, 10, 10, { from: exhibitor });
+      await instance.exhibit(0, ether('20'), ether('10'), 10, { from: exhibitor });
     });
     it("normal", async function () {
       tracker2 = await balance.tracker(bidder);
