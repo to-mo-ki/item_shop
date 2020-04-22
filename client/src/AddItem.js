@@ -13,13 +13,11 @@ class AddItem extends Component {
   };
 
   addItem = async (value) => {
-    await this.uploadIpfs(value);
-
+    const tokenURI = await this.uploadIpfs(value);
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.ItemShop;
     console.log(drizzleState.accounts);
-
-    const stackId = contract.methods["mintItem"].cacheSend(value, {
+    const stackId = contract.methods["mintItem"].cacheSend(tokenURI, {
       from: drizzleState.accounts[0]
     });
     this.setState({ stackId });
@@ -38,6 +36,7 @@ class AddItem extends Component {
     }
     const hash = await result[0].cid.string;
     console.log(hash);
+    return hash;
   };
 
   getTxStatus = () => {
