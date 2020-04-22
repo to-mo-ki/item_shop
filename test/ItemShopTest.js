@@ -198,4 +198,14 @@ describe('ItemShop', function () {
 
   });
 
+  describe("URI", function () {
+    it("normal test", async function () {
+      const instance = await ItemShop.new("ItemShop", "IS", "baseURI/", 1);
+      await instance.mintItem("tokenURI");
+      const URI = await instance.tokenURI(0);
+      expect(URI).to.be.equals("baseURI/tokenURI")
+    });
+
+  });
+
 });
