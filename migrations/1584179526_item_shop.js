@@ -9,5 +9,5 @@ module.exports = async (deployer, network) => {
   } else {
     secondsPerBlock = 1;
   }
-  await deployer.deploy(ItemShop, secondsPerBlock);
+  await deployer.deploy(ItemShop, "ItemToken", "IS", "127.0.0.1:5001", secondsPerBlock);
 };

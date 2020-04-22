@@ -23,7 +23,10 @@ contract ItemShop is ItemToken {
 
     mapping(uint256 => bool) public valid;
 
-    constructor(uint256 _secondsPerBlock) public {
+    constructor(string memory name, string memory symbol, string memory baseURI, uint256 _secondsPerBlock)
+        public
+        ItemToken(name, symbol, baseURI)
+    {
         secondsPerBlock = _secondsPerBlock;
     }
 
@@ -95,14 +98,6 @@ contract ItemShop is ItemToken {
                 auction.createdAt,
                 block.number * secondsPerBlock
             );
-    }
-
-    function buy(uint256 _id) public payable {
-        uint256 price;
-        (price, , ) = getItem(_id);
-        require(msg.value == price, "Invalid price");
-        buy(_id);
-        safeTransferFrom(address(this), msg.sender, _id);
     }
 
     function withdrawPayments() public onlyOwner {

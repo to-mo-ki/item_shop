@@ -10,31 +10,29 @@ describe('ItemShop', function () {
   var obj;
   describe('getState method', function () {
     beforeEach(async function () {
-      obj = await ItemShop.new(15);
+      obj = await ItemShop.new("ItemShop", "IS", "infura.io", 15);
     });
 
     it("No item test", async function () {
       count = await obj.getItemCount();
       assert.equal(count, 0);
-      await expectRevert(obj.buy(0, { value: 1 }), 'Invalid item id');
       await expectRevert(obj.getItem(0), 'Invalid item id');
     });
 
     it("unsold test", async function () {
-      await obj.mintItem(2);
+      await obj.mintItem();
       item = await obj.getItem(0);
-      assert.equal(item[0], 2);
-      assert.equal(item[1], false);
+      assert.equal(item[0], false);
     });
   });
 
   describe('exhibit', function () {
     beforeEach(async function () {
-      instance = await ItemShop.new(15);
+      instance = await ItemShop.new("ItemShop", "IS", "infura.io", 15);
     });
 
     it("exhibit normally", async function () {
-      await instance.mintItem(2);
+      await instance.mintItem();
       await instance.exhibit(0, 22, 11, 33);
     });
 
@@ -43,23 +41,23 @@ describe('ItemShop', function () {
     });
 
     it("reverts when exihibit caller is not owner", async function () {
-      await instance.mintItem(2);
+      await instance.mintItem();
       await expectRevert(instance.exhibit(0, 22, 11, 33, { from: accounts[0] }), "ItemShop: exihibit caller is not owner");
     });
 
     it("reverts when zero start price", async function () {
-      await instance.mintItem(2);
+      await instance.mintItem();
       await expectRevert(instance.exhibit(0, 0, 11, 33), "ItemShop: zero price");
       await expectRevert(instance.exhibit(0, 11, 0, 33), "ItemShop: zero price");
     });
 
     it("reverts when start price is lower than end price", async function () {
-      await instance.mintItem(2);
+      await instance.mintItem();
       await expectRevert(instance.exhibit(0, 11, 22, 33), "ItemShop: start price is lower than end price");
     });
 
     it("reverts when zero duration", async function () {
-      await instance.mintItem(2);
+      await instance.mintItem();
       await expectRevert(instance.exhibit(0, 22, 11, 0), "ItemShop: zero duration");
     });
 
@@ -67,11 +65,11 @@ describe('ItemShop', function () {
 
   describe('getAuction', function () {
     beforeEach(async function () {
-      instance = await ItemShop.new(15);
+      instance = await ItemShop.new("ItemShop", "IS", "infura.io", 15);
     });
 
     it("get exist auction", async function () {
-      var test = await instance.mintItem(2);
+      var test = await instance.mintItem();
       await instance.exhibit(0, 22, 11, 33);
       var auction = await instance.getAuction(0);
       expect(auction[0]).to.be.bignumber.that.equals('0');
@@ -113,8 +111,8 @@ describe('ItemShop', function () {
   describe('get current price by Id', function () {
     context("startPrice=20, endPrice=10, duration=100, secondsPerBlock=1", function () {
       beforeEach(async function () {
-        instance = await ItemShop.new(1);
-        await instance.mintItem(2);
+        instance = await ItemShop.new("ItemShop", "IS", "infura.io", 1);
+        await instance.mintItem();
         await instance.exhibit(0, 20, 10, 10);
       });
       it("passed=0", async function () {
@@ -136,8 +134,8 @@ describe('ItemShop', function () {
 
     context("startPrice=20, endPrice=10, duration=100, secondsPerBlock=2", function () {
       beforeEach(async function () {
-        instance = await ItemShop.new(2);
-        await instance.mintItem(2);
+        instance = await ItemShop.new("ItemShop", "IS", "infura.io", 2);
+        await instance.mintItem();
         await instance.exhibit(0, 20, 10, 10);
       });
       it("passed=0", async function () {
@@ -162,14 +160,14 @@ describe('ItemShop', function () {
     const exhibitor = accounts[0];
     const bidder = accounts[1];
     beforeEach(async function () {
-      instance = await ItemShop.new(1, { from: exhibitor });
-      await instance.mintItem(2, { from: exhibitor });
+      instance = await ItemShop.new("ItemShop", "IS", "infura.io", 1, { from: exhibitor });
+      await instance.mintItem("", { from: exhibitor });//第一引数ないとエラーになる
       await instance.exhibit(0, ether('20'), ether('10'), 10, { from: exhibitor });
     });
     it("normal", async function () {
       tracker2 = await balance.tracker(bidder);
       await instance.bid(0, { value: ether('19'), from: bidder });
-      expect(await tracker2.delta()).to.be.bignumber.that.closeTo(ether('-19'), '1000000000000000');
+      expect(await tracker2.delta()).to.be.bignumber.that.closeTo(ether('-19'), '10000000000000000');
     });
 
     it("revert when bid invalid price", async function () {
@@ -184,7 +182,7 @@ describe('ItemShop', function () {
     const deployer = accounts[0];
     const user = accounts[1];
     it("normal test", async function () {
-      const instance = await ItemShop.new(1, { from: deployer });
+      const instance = await ItemShop.new("ItemShop", "IS", "infura.io", 1, { from: deployer });
       send.ether(user, instance.address, ether('2'));
       const contractTracker = await balance.tracker(instance.address);
       const deployerTracker = await balance.tracker(deployer);
@@ -194,7 +192,7 @@ describe('ItemShop', function () {
     });
 
     it("revert when non-owner withdrawPayments", async function () {
-      const instance = await ItemShop.new(1, { from: deployer });
+      const instance = await ItemShop.new("ItemShop", "IS", "infura.io", 1, { from: deployer });
       await expectRevert(instance.withdrawPayments({ from: user }), "Ownable: caller is not the owner")
     });
 

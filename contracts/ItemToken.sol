@@ -1,23 +1,30 @@
 pragma solidity ^0.5.0;
 
 import "../node_modules/@openzeppelin/contracts/ownership/Ownable.sol";
-import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
 
 
-contract ItemToken is Ownable, ERC721 {
+contract ItemToken is Ownable, ERC721Full {
     struct Item {
-        uint256 price;
         bool sold;
     }
 
     Item[] public items;
 
-    constructor() public {}
+    constructor(string memory name, string memory symbol, string memory baseURI) public ERC721Full(name, symbol) {
+        _setBaseURI(baseURI);
+    }
 
-    function mintItem(uint256 _price) public onlyOwner returns (uint256) {
-        items.push(Item(_price, false));
+    function mintItem() public onlyOwner returns (uint256) {
+        items.push(Item(false));
         uint256 newTokenId = items.length - 1;
         _mint(msg.sender, newTokenId);
+        return newTokenId;
+    }
+
+    function mintItem(string memory _tokenURI) public onlyOwner returns (uint256) {
+        uint256 newTokenId = mintItem();
+        _setTokenURI(newTokenId, _tokenURI);
         return newTokenId;
     }
 
@@ -31,8 +38,8 @@ contract ItemToken is Ownable, ERC721 {
         _;
     }
 
-    function getItem(uint256 _id) public view validItemId(_id) returns (uint256, bool, address) {
-        return (items[_id].price, items[_id].sold, ownerOf(_id));
+    function getItem(uint256 _id) public view validItemId(_id) returns (bool, address) {
+        return (items[_id].sold, ownerOf(_id));
     }
 
     function getItemCount() public view returns (uint256) {
