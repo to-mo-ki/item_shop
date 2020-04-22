@@ -24,23 +24,25 @@ class ExhibitForm extends React.Component {
   render() {
     return (
       <Form>
-        <Form.Group>
-          <Form.Label>ID</Form.Label>
-          <Form.Control type="number" min="0" onChange={this.idHandleChange} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>startPrice</Form.Label>
-          <Form.Control type="number" min="0" onChange={this.startPriceHandleChange} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>endPrice</Form.Label>
-          <Form.Control type="number" min="0" onChange={this.endPriceHandleChange} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>duration</Form.Label>
-          <Form.Control type="number" min="0" onChange={this.durationHandleChange} />
-        </Form.Group>
-        <ExhibitButton index={this.state.id} startPrice={this.state.startPrice} endPrice={this.state.endPrice} duration={this.state.duration} />
+        <Form.Row>
+          <Form.Group >
+            <Form.Label>ID</Form.Label>
+            <Form.Control type="number" onChange={this.idHandleChange} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>startPrice</Form.Label>
+            <Form.Control type="number" onChange={this.startPriceHandleChange} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>endPrice</Form.Label>
+            <Form.Control type="number" onChange={this.endPriceHandleChange} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>duration</Form.Label>
+            <Form.Control type="number" onChange={this.durationHandleChange} />
+          </Form.Group>
+          <ExhibitButton index={this.state.id} startPrice={this.state.startPrice} endPrice={this.state.endPrice} duration={this.state.duration} />
+        </Form.Row>
       </Form>
     );
   }
