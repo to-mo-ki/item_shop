@@ -8,9 +8,7 @@ class MyItemList extends Component {
   render() {
     const account = this.props.account;
     const rows = this.props.items.map(function (item, index) {
-      console.log(account);
-      console.log(item[2]);
-      if (account !== item[2]) {
+      if (account !== item[1]) {
         return null;
       }
       return <Card key={index}>
