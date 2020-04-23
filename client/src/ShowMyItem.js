@@ -13,8 +13,10 @@ class ShowMyItem extends Component {
     const Items = this.props.myItemKeys.map(key =>
       ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
     );
-    console.log(Items)
-    return <MyItemList items={Items} account={this.props.drizzleState.accounts[0]} />;
+    const URIs = this.props.itemURIKeys.map(key =>
+      ItemShop.tokenURI[key] ? ItemShop.tokenURI[key].value : []
+    );
+    return <MyItemList items={Items} URIs={URIs} account={this.props.drizzleState.accounts[0]} />;
   }
 }
 
@@ -22,11 +24,12 @@ const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
       <ItemShopKeyContext.Consumer>
-        {({ myItemKeys, fetchItemKeys }) => (
+        {({ myItemKeys, fetchItemKeys, itemURIKeys }) => (
           <ShowMyItem
             drizzle={drizzle}
             drizzleState={drizzleState}
             myItemKeys={myItemKeys}
+            itemURIKeys={itemURIKeys}
             fetchItemKeys={fetchItemKeys}
           />
         )}

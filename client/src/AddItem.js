@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
 import ItemKeyContext from './ItemShopKey';
-import ipfs from './ipfs';
+import uploadIpfs from './IpfsUploader';
 
 class AddItem extends Component {
-  state = { stackId: null };
+  state = { stackId: null, image: null };
 
   handleKeyDown = e => {
     if (e.keyCode === 13) {
@@ -13,7 +13,7 @@ class AddItem extends Component {
   };
 
   addItem = async (value) => {
-    const tokenURI = await this.uploadIpfs(value);
+    const tokenURI = await uploadIpfs(value, this.state.image);
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.ItemShop;
     console.log(drizzleState.accounts);
@@ -24,20 +24,6 @@ class AddItem extends Component {
     this.props.turnFetchStatus(true);
   };
 
-  uploadIpfs = async (value) => {
-    const content = JSON.stringify({
-      name: value,
-      description: "",
-      image: ""
-    });
-    var result = [];
-    for await (var res of ipfs.add(content)) {
-      result.push(res);
-    }
-    const hash = await result[0].cid.string;
-    console.log(hash);
-    return hash;
-  };
 
   getTxStatus = () => {
     const { transactions, transactionStack } = this.props.drizzleState;
@@ -56,11 +42,25 @@ class AddItem extends Component {
       : 'Item追加中…';
   };
 
+  handleFiles = (e) => {
+    const files = e.target.files;
+    const reader = new window.FileReader();
+    var buffer;
+    reader.readAsArrayBuffer(files[0]);
+    reader.onloadend = () => {
+      const res = reader.result;
+      buffer = Buffer.from(res);
+      this.setState({ ...this.state, image: buffer });
+    };
+  }
+
   render() {
     return (
       <div>
         <input type="text" onKeyDown={this.handleKeyDown} />
+        <input type="file" onChange={this.handleFiles} />
         <div>{this.getTxStatus()}</div>
+
       </div >
     );
   }
