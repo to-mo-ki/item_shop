@@ -3,16 +3,17 @@ import Card from 'react-bootstrap/Card';
 
 class ItemCard extends Component {
 
-  state = { name: '' };
+  state = { name: '', image: '' };
 
   fetchNames = async (URI) => {
     if (URI === undefined || URI.length === 0) {
       return;
     }
-    const json = await fetch(URI);
-    var name = (await json.json()).name;
-    if (name !== this.state.name) { //無理やり
-      this.setState({ name });
+    const res = await fetch(URI);
+    const content = await res.json()
+    console.log(content);
+    if (content.name !== this.state.name) { //無理やり
+      this.setState({ name: content.name, image: content.image });
     }
   }
 
@@ -25,6 +26,7 @@ class ItemCard extends Component {
       <Card.Body>
         <Card.Title>{id}</Card.Title>
         <Card.Text>{URI}, {this.state.name}</Card.Text>
+        <Card.Img src={this.state.image} />
       </Card.Body>
     </Card>
   }
