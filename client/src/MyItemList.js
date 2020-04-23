@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
-import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
+import ItemCard from './ItemCard';
 
 class MyItemList extends Component {
 
   render() {
     const account = this.props.account;
+    const URIs = this.props.URIs;
     const rows = this.props.items.map(function (item, index) {
       if (account !== item[1]) {
         return null;
       }
-      return <Card key={index}>
-        <Card.Body>
-          <Card.Title>{index}</Card.Title>
-          <Card.Text>description</Card.Text>
-        </Card.Body>
-      </Card>
+      console.log(index);
+      return <ItemCard id={index} URI={URIs[index]} />
     });
 
     return (
@@ -27,16 +24,4 @@ class MyItemList extends Component {
   }
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <MyItemList
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-        items={props.items}
-        account={props.account}
-      />
-    )}
-  </DrizzleContext.Consumer>
-);
-export default withContext;
+export default MyItemList;

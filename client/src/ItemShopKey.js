@@ -18,8 +18,10 @@ class Provider extends React.Component {
       }
       const itemLength = await contract.methods.getItemCount().call();
       const myItemKeys = [];
+      const itemURIKeys = [];
       for (let i = 0; i < itemLength; i++) {
         myItemKeys.push(contract.methods.getItem.cacheCall(i));
+        itemURIKeys.push(contract.methods.tokenURI.cacheCall(i));
       }
 
       this.setState({
@@ -27,7 +29,8 @@ class Provider extends React.Component {
         dataKeys,
         validKeys,
         priceKeys,
-        myItemKeys
+        myItemKeys,
+        itemURIKeys,
       });
     };
 
@@ -43,6 +46,7 @@ class Provider extends React.Component {
       validKeys: [],
       priceKeys: [],
       myItemKeys: [],
+      itemURIKeys: [],
       fetchItemKeys: this.fetchItemKeys,
       isFetchingItem: false,
       turnFetchStatus: this.turnFetchStatus,
