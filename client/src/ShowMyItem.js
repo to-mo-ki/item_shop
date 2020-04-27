@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
-import { DrizzleContext } from '@drizzle/react-plugin';
-import ItemShopKeyContext from './ItemShopKey';
-import MyItemList from './MyItemList';
+import React, { Component } from 'react'
+import { DrizzleContext } from '@drizzle/react-plugin'
+import MyItemKeyContext from './MyItemKey'
+import MyItemList from './MyItemList'
 
 class ShowMyItem extends Component {
-  async componentDidMount() {
-    await this.props.fetchItemKeys(this.props.drizzle.contracts.ItemShop);
+  async componentDidMount () {
+    await this.props.fetchItemKeys(this.props.drizzle.contracts.ItemShop)
   }
 
-  render() {
-    const { ItemShop } = this.props.drizzleState.contracts;
+  render () {
+    const { ItemShop } = this.props.drizzleState.contracts
     const Items = this.props.myItemKeys.map(key =>
       ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
-    );
+    )
     const URIs = this.props.itemURIKeys.map(key =>
       ItemShop.tokenURI[key] ? ItemShop.tokenURI[key].value : []
-    );
-    return <MyItemList items={Items} URIs={URIs} account={this.props.drizzleState.accounts[0]} />;
+    )
+    return <MyItemList items={Items} URIs={URIs} account={this.props.drizzleState.accounts[0]} />
   }
 }
 
 const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
-      <ItemShopKeyContext.Consumer>
+      <MyItemKeyContext.Consumer>
         {({ myItemKeys, fetchItemKeys, itemURIKeys }) => (
           <ShowMyItem
             drizzle={drizzle}
@@ -33,8 +33,8 @@ const withContext = () => (
             fetchItemKeys={fetchItemKeys}
           />
         )}
-      </ItemShopKeyContext.Consumer>
+      </MyItemKeyContext.Consumer>
     )}
   </DrizzleContext.Consumer>
-);
-export default withContext;
+)
+export default withContext

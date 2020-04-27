@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
-import ItemKeyContext from './ItemShopKey';
+import MyItemKeyContext from './MyItemKey';
 import uploadIpfs from './IpfsUploader';
 
 class AddItem extends Component {
@@ -69,7 +69,7 @@ class AddItem extends Component {
 const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
-      <ItemKeyContext.Consumer>
+      <MyItemKeyContext.Consumer>
         {({ fetchItemKeys, isFetchingItem, turnFetchStatus }) => (
           <AddItem
             drizzle={drizzle}
@@ -79,7 +79,7 @@ const withContext = () => (
             turnFetchStatus={turnFetchStatus}
           />
         )}
-      </ItemKeyContext.Consumer>
+      </MyItemKeyContext.Consumer>
     )}
   </DrizzleContext.Consumer>
 );
