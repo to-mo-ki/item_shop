@@ -10,9 +10,8 @@ class BidButton extends Component {
     this.onClick = (index, price) => {
       const { drizzle, drizzleState } = this.props;
       const contract = drizzle.contracts.ItemShop;
-      const weiPrice = drizzle.web3.utils.toWei(price, "ether");
       const stackId = contract.methods.bid.cacheSend(index, {
-        value: weiPrice,
+        value: price,
         from: drizzleState.accounts[0],
       });
       this.setState({ stackId });
