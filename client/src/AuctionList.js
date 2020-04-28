@@ -21,7 +21,8 @@ function AuctionList (props) {
 
   const { ItemShop } = props.drizzleState.contracts
   const rows = keys.map(function (key, index) {
-    if (!ItemShop.valid[key]) return null
+    const valid = ItemShop.valid[key] ? ItemShop.valid[key].value : false
+    if (!valid) return null
     console.log(index)
     return <AuctionCard key={index} id={index}/>
   })
