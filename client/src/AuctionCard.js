@@ -18,9 +18,8 @@ function AuctionCard (props) {
     const data = contract.getAuction[key] ? contract.getAuction[key].value : undefined
     setData(data)
   }, [key, props.drizzleState])
-
   return (<Card key={props.id}>
-    <AuctionCardText data={data} />
+    <AuctionCardText data={data} id={props.id}/>
   </Card>)
 }
 

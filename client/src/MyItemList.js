@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import CardColumns from 'react-bootstrap/CardColumns'
 import ItemCard from './ItemCard'
 

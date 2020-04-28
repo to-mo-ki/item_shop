@@ -1,12 +1,12 @@
-import React from "react";
-import ShowItemShop from './ShowItemShop';
+import React from 'react'
+import AuctionList from './AuctionList'
 
 export default class Home extends React.Component {
-  render() {
+  render () {
     return (
       <div>
-        <ShowItemShop />
+        <AuctionList />
       </div>
-    );
+    )
   }
 }

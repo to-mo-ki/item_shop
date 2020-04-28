@@ -8,6 +8,7 @@ function CurrentPrice (props) {
     const contract = props.drizzle.contracts.ItemShop
     const price = await contract.methods.getCurrentPriceById(props.id).call()
     setPrice(price)
+    props.setPrice(price)
   }
 
   useEffect(() => {

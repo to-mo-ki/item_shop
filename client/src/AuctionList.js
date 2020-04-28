@@ -1,16 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DrizzleContext } from '@drizzle/react-plugin'
-import Card from 'react-bootstrap/Card'
 import CardColumns from 'react-bootstrap/CardColumns'
-import AuctionCardText from './AuctionCardText'
+import AuctionCard from './AuctionCard'
 
 function AuctionList (props) {
-  var valids = props.valids
-  const rows = props.items.map(function (item, index) {
-    if (!valids[index]) return null
-    return <Card key={index}>
-      <AuctionCardText id={index} data={item} />
-    </Card>
+  const [keys, setKeys] = useState([])
+
+  const fetchAuctionKeys = async (contract) => {
+    const itemCount = await contract.methods.getAuctionCount().call()
+    const keys = []
+    for (let i = 0; i < itemCount; i++) {
+      keys.push(contract.methods.valid.cacheCall(i))
+    }
+    setKeys(keys)
+  }
+
+  useEffect(() => {
+    fetchAuctionKeys(props.drizzle.contracts.ItemShop)
+  }, [props.drizzle])
+
+  const { ItemShop } = props.drizzleState.contracts
+  const rows = keys.map(function (key, index) {
+    if (!ItemShop.valid[key]) return null
+    console.log(index)
+    return <AuctionCard key={index} id={index}/>
   })
 
   return (
@@ -26,8 +39,6 @@ const withContext = props => (
       <AuctionList
         drizzle={drizzle}
         drizzleState={drizzleState}
-        items={props.items}
-        valids={props.valids}
       />
     )}
   </DrizzleContext.Consumer>
