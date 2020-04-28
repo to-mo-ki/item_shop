@@ -17,10 +17,7 @@ class ShowItemShop extends Component {
     const valids = this.props.validKeys.map(key =>
       ItemShop.valid[key] ? ItemShop.valid[key].value : []
     )
-    const prices = this.props.priceKeys.map(key =>
-      ItemShop.getCurrentPriceById[key] ? ItemShop.getCurrentPriceById[key].value : []
-    )
-    return <AuctionList items={Items} valids={valids} prices={prices} />
+    return <AuctionList items={Items} valids={valids} />
   }
 }
 

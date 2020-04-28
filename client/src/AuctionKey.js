@@ -10,18 +10,15 @@ class Provider extends React.Component {
       const length = await contract.methods.getAuctionCount().call()
       const dataKeys = []
       const validKeys = []
-      const priceKeys = []
       for (let i = 0; i < length; i++) {
         dataKeys.push(contract.methods.valid.cacheCall(i))
         validKeys.push(contract.methods.getAuction.cacheCall(i))
-        priceKeys.push(contract.methods.getCurrentPriceById.cacheCall(i))
       }
 
       this.setState({
         ...this.state,
         dataKeys,
-        validKeys,
-        priceKeys
+        validKeys
       })
     }
 
@@ -35,7 +32,6 @@ class Provider extends React.Component {
     this.state = {
       dataKeys: [],
       validKeys: [],
-      priceKeys: [],
       fetchItemKeys: this.fetchItemKeys,
       isFetchingItem: false,
       turnFetchStatus: this.turnFetchStatus
