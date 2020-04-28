@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { DrizzleContext } from '@drizzle/react-plugin'
 import AuctionKeyContext from './AuctionKey'
-import ItemList from './ItemList'
+import AuctionList from './AuctionList'
 
 class ShowItemShop extends Component {
   async componentDidMount () {
@@ -20,7 +20,7 @@ class ShowItemShop extends Component {
     const prices = this.props.priceKeys.map(key =>
       ItemShop.getCurrentPriceById[key] ? ItemShop.getCurrentPriceById[key].value : []
     )
-    return <ItemList items={Items} valids={valids} prices={prices} />
+    return <AuctionList items={Items} valids={valids} prices={prices} />
   }
 }
 
