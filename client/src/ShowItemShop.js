@@ -11,7 +11,7 @@ class ShowItemShop extends Component {
   render () {
     const { ItemShop } = this.props.drizzleState.contracts
     const Items = this.props.dataKeys.map(key =>
-      ItemShop.getAuction[key] ? ItemShop.getAuction[key].value : []
+      ItemShop.getAuction[key] ? ItemShop.getAuction[key].value : undefined
     )
 
     const valids = this.props.validKeys.map(key =>
