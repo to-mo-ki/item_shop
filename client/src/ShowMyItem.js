@@ -1,15 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DrizzleContext } from '@drizzle/react-plugin'
-import MyItemKeyContext from './MyItemKey'
 import MyItemList from './MyItemList'
 
 function ShowMyItem (props) {
+  const [keys, setKeys] = useState([])
+
+  const fetchItemKeys = async (contract) => {
+    const itemCount = await contract.methods.getItemCount().call()
+    const keys = []
+    for (let i = 0; i < itemCount; i++) {
+      keys.push(contract.methods.ownerOf.cacheCall(i))
+    }
+    setKeys(keys)
+  }
+
   useEffect(() => {
-    props.fetchItemKeys(props.drizzle.contracts.ItemShop)
-  }, [])
+    fetchItemKeys(props.drizzle.contracts.ItemShop)
+  }, [props.drizzle])
 
   const { ItemShop } = props.drizzleState.contracts
-  const itemToOwner = props.itemToOwnerKeys.map(key =>
+  const itemToOwner = keys.map(key =>
     ItemShop.ownerOf[key] ? ItemShop.ownerOf[key].value : undefined
   )
   return <MyItemList itemToOwner={itemToOwner} account={props.drizzleState.accounts[0]} />
@@ -18,16 +28,10 @@ function ShowMyItem (props) {
 const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
-      <MyItemKeyContext.Consumer>
-        {({ itemToOwnerKeys, fetchItemKeys }) => (
-          <ShowMyItem
-            drizzle={drizzle}
-            drizzleState={drizzleState}
-            itemToOwnerKeys={itemToOwnerKeys}
-            fetchItemKeys={fetchItemKeys}
-          />
-        )}
-      </MyItemKeyContext.Consumer>
+      <ShowMyItem
+        drizzle={drizzle}
+        drizzleState={drizzleState}
+      />
     )}
   </DrizzleContext.Consumer>
 )

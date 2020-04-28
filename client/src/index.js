@@ -7,7 +7,6 @@ import * as serviceWorker from './serviceWorker'
 import { Drizzle, generateStore } from '@drizzle/store'
 import { DrizzleContext } from '@drizzle/react-plugin'
 import ItemShop from './contracts/ItemShop.json'
-import MyItemKeyContext from './MyItemKey'
 import AuctionKeyContext from './AuctionKey'
 
 const options = {
@@ -25,11 +24,9 @@ const drizzle = new Drizzle(options, drizzleStore)
 
 ReactDOM.render(
   <DrizzleContext.Provider drizzle={drizzle}>
-    <MyItemKeyContext.Provider>
-      <AuctionKeyContext.Provider>
-        <App />
-      </AuctionKeyContext.Provider>
-    </MyItemKeyContext.Provider>
+    <AuctionKeyContext.Provider>
+      <App />
+    </AuctionKeyContext.Provider>
   </DrizzleContext.Provider>,
   document.getElementById('root'))
 
