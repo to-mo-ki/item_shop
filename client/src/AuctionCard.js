@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import ItemMetaData from './ItemMetaData'
+import React, { useState, useEffect } from 'react'
 import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
+import AuctionCardText from './AuctionCardText'
 
-function ItemCard (props) {
-  const [itemMetaURI, setItemMetaURI] = useState('')
+function AuctionCard (props) {
+  const [data, setData] = useState(null)
   const [key, setKey] = useState('')
 
   useEffect(() => {
     const contract = props.drizzle.contracts.ItemShop
-    const key = contract.methods.tokenURI.cacheCall(props.id)
+    const key = contract.methods.getAuction.cacheCall(props.id)
     setKey(key)
   }, [props.id])
 
   useEffect(() => {
     const contract = props.drizzleState.contracts.ItemShop
-    const itemMetaURI = contract.tokenURI[key] ? contract.tokenURI[key].value : undefined
-    setItemMetaURI(itemMetaURI)
+    const data = contract.getAuction[key] ? contract.getAuction[key].value : undefined
+    setData(data)
   }, [key, props.drizzleState])
-
   return (<Card key={props.id}>
-    <ItemMetaData URI={itemMetaURI} />
+    <AuctionCardText data={data} id={props.id}/>
   </Card>)
 }
 
 const withContext = props => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
-      <ItemCard
+      <AuctionCard
         drizzle={drizzle}
         drizzleState={drizzleState}
         id={props.id}

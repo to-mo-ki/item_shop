@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
-import ItemKeyContext from './ItemShopKey';
 import uploadIpfs from './IpfsUploader';
 
 class AddItem extends Component {
@@ -16,12 +15,10 @@ class AddItem extends Component {
     const tokenURI = await uploadIpfs(value, this.state.image);
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.ItemShop;
-    console.log(drizzleState.accounts);
     const stackId = contract.methods["mintItem"].cacheSend(tokenURI, {
       from: drizzleState.accounts[0]
     });
     this.setState({ stackId });
-    this.props.turnFetchStatus(true);
   };
 
 
@@ -30,13 +27,6 @@ class AddItem extends Component {
     const txHash = transactionStack[this.state.stackId];
     if (!txHash) return null;
     if (!transactions[txHash]) return null;
-    if (
-      transactions[txHash].status === 'success' &&
-      this.props.isFetchingItem
-    ) {
-      this.props.turnFetchStatus(false);
-      this.props.fetchItemKeys(this.props.drizzle.contracts.ItemShop);
-    }
     return transactions[txHash].status === 'success'
       ? 'Item追加に成功しました！'
       : 'Item追加中…';
@@ -69,17 +59,10 @@ class AddItem extends Component {
 const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
-      <ItemKeyContext.Consumer>
-        {({ fetchItemKeys, isFetchingItem, turnFetchStatus }) => (
-          <AddItem
-            drizzle={drizzle}
-            drizzleState={drizzleState}
-            fetchItemKeys={fetchItemKeys}
-            isFetchingItem={isFetchingItem}
-            turnFetchStatus={turnFetchStatus}
-          />
-        )}
-      </ItemKeyContext.Consumer>
+      <AddItem
+        drizzle={drizzle}
+        drizzleState={drizzleState}
+      />
     )}
   </DrizzleContext.Consumer>
 );
