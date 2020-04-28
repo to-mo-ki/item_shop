@@ -10,13 +10,13 @@ class ShowMyItem extends Component {
 
   render () {
     const { ItemShop } = this.props.drizzleState.contracts
-    const Items = this.props.myItemKeys.map(key =>
-      ItemShop.getItem[key] ? ItemShop.getItem[key].value : []
+    const itemToOwner = this.props.itemToOwnerKeys.map(key =>
+      ItemShop.ownerOf[key] ? ItemShop.ownerOf[key].value : []
     )
     const URIs = this.props.itemURIKeys.map(key =>
       ItemShop.tokenURI[key] ? ItemShop.tokenURI[key].value : []
     )
-    return <MyItemList items={Items} URIs={URIs} account={this.props.drizzleState.accounts[0]} />
+    return <MyItemList itemToOwner={itemToOwner} URIs={URIs} account={this.props.drizzleState.accounts[0]} />
   }
 }
 
@@ -24,11 +24,11 @@ const withContext = () => (
   <DrizzleContext.Consumer>
     {({ drizzle, drizzleState }) => (
       <MyItemKeyContext.Consumer>
-        {({ myItemKeys, fetchItemKeys, itemURIKeys }) => (
+        {({ itemToOwnerKeys, fetchItemKeys, itemURIKeys }) => (
           <ShowMyItem
             drizzle={drizzle}
             drizzleState={drizzleState}
-            myItemKeys={myItemKeys}
+            itemToOwnerKeys={itemToOwnerKeys}
             itemURIKeys={itemURIKeys}
             fetchItemKeys={fetchItemKeys}
           />

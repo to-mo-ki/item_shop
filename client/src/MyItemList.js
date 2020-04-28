@@ -7,8 +7,8 @@ class MyItemList extends Component {
   render () {
     const account = this.props.account
     const URIs = this.props.URIs
-    const rows = this.props.items.map(function (item, index) {
-      if (account !== item[1]) {
+    const rows = this.props.itemToOwner.map(function (owner, index) {
+      if (account !== owner) {
         return null
       }
       console.log(index)

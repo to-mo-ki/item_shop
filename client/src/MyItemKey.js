@@ -8,16 +8,16 @@ class Provider extends React.Component {
 
     this.fetchItemKeys = async (contract) => {
       const itemLength = await contract.methods.getItemCount().call()
-      const myItemKeys = []
+      const itemToOwnerKeys = []
       const itemURIKeys = []
       for (let i = 0; i < itemLength; i++) {
-        myItemKeys.push(contract.methods.getItem.cacheCall(i))
+        itemToOwnerKeys.push(contract.methods.ownerOf.cacheCall(i))
         itemURIKeys.push(contract.methods.tokenURI.cacheCall(i))
       }
-
+      console.log(itemToOwnerKeys)
       this.setState({
         ...this.state,
-        myItemKeys,
+        itemToOwnerKeys,
         itemURIKeys
       })
     }
@@ -30,7 +30,7 @@ class Provider extends React.Component {
     }
 
     this.state = {
-      myItemKeys: [],
+      itemToOwnerKeys: [],
       itemURIKeys: [],
       fetchItemKeys: this.fetchItemKeys,
       isFetchingItem: false,
