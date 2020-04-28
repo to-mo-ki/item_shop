@@ -12,8 +12,7 @@ class MyItemList extends Component {
         return null
       }
       console.log(index)
-      if (URIs[index].length == 0) return null
-      return <ItemCard id={index} URI={URIs[index]} />
+      return <ItemCard key={index} id={index} URI={URIs[index]} />
     })
 
     return (
