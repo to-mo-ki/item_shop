@@ -1,35 +1,39 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import ItemMetaData from './ItemMetaData'
+import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
 
 function ItemCard (props) {
-  const [name, setName] = useState('')
-  const [image, setImage] = useState('')
+  const [itemMetaURI, setItemMetaURI] = useState('')
+  const [key, setKey] = useState('')
 
   useEffect(() => {
-    fetchNames(props.URI)
-  }, [props.URI])
+    const contract = props.drizzle.contracts.ItemShop
+    const key = contract.methods.tokenURI.cacheCall(props.id)
+    setKey(key)
+  }, [props.id])
 
-  const fetchNames = async (URI) => {
-    if (URI === undefined || URI.length === 0) {
-      return
-    }
-    const res = await fetch(URI)
-    const content = await res.json()
-    console.log(res, content)
-    setName(content.name)
-    setImage(content.image)
-  }
+  useEffect(() => {
+    const contract = props.drizzleState.contracts.ItemShop
+    const itemMetaURI = contract.tokenURI[key] ? contract.tokenURI[key].value : undefined
+    setItemMetaURI(itemMetaURI)
+  }, [key, props.drizzleState])
 
-  const URI = props.URI
-  const id = props.id
-  console.log(props)
-  return <Card key={id}>
-    <Card.Body>
-      <Card.Title>{id}</Card.Title>
-      <Card.Text>{URI}, {name}</Card.Text>
-      <Card.Img src={image} />
-    </Card.Body>
-  </Card>
+  return (<Card key={props.id}>
+    <ItemMetaData URI={itemMetaURI} />
+  </Card>)
 }
 
-export default ItemCard
+const withContext = props => (
+  <DrizzleContext.Consumer>
+    {({ drizzle, drizzleState }) => (
+      <ItemCard
+        drizzle={drizzle}
+        drizzleState={drizzleState}
+        id={props.id}
+      />
+    )}
+  </DrizzleContext.Consumer>
+)
+
+export default withContext
