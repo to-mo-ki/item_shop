@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
 
-function ItemMetaData (props) {
+function ItemTitleAndImage (props) {
   const [name, setName] = useState('')
   const [image, setImage] = useState('')
 
@@ -19,10 +19,10 @@ function ItemMetaData (props) {
     setImage(content.image)
   }
 
-  return <Card.Body>
+  return <div>
     <Card.Title>{name}</Card.Title>
-    <Card.Img src={image} />
-  </Card.Body>
+    <Card.Img src={image} style={{ margin: '10px' }}/>
+  </div>
 }
 
-export default ItemMetaData
+export default ItemTitleAndImage

@@ -24,6 +24,7 @@ contract ItemShop is ItemToken {
     Auction[] auctions;
 
     mapping(uint256 => bool) public valid;
+    mapping(uint256 => bool) public itemIsExhibited;
 
     constructor(string memory name, string memory symbol, string memory baseURI, uint256 _secondsPerBlock)
         public
@@ -38,6 +39,8 @@ contract ItemShop is ItemToken {
         require(startPrice > 0 && endPrice > 0, "ItemShop: zero price");
         require(startPrice >= endPrice, "ItemShop: start price is lower than end price");
         require(duration > 0, "ItemShop: zero duration");
+        require(!itemIsExhibited[tokenId], "ItemShop: this item is exhibited");
+        itemIsExhibited[tokenId] = true;
         uint256 createdAt = block.number * secondsPerBlock;
         address owner = ownerOf(tokenId);
         Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
@@ -86,6 +89,7 @@ contract ItemShop is ItemToken {
         address payable owner = address(uint160(auction.owner));
         delete valid[_id];
         uint256 tokenId = auction.tokenId;
+        delete itemIsExhibited[tokenId];
         this.safeTransferFrom(owner, msg.sender, tokenId);
         emit Bid(_id);
     }

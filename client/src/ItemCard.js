@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import ItemMetaData from './ItemMetaData'
+import ItemTitleAndImage from './ItemTitleAndImage'
+import ExhibitSelectButton from './ExhibitSelectButton'
 import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
 
@@ -18,8 +19,12 @@ function ItemCard (props) {
     const itemMetaURI = contract.tokenURI[key] ? contract.tokenURI[key].value : undefined
     setItemMetaURI(itemMetaURI)
   }, [key, props.drizzleState])
-  return (<Card key={props.id}>
-    <ItemMetaData URI={itemMetaURI} />
+
+  return (<Card key={props.id} style={{ textAlign: 'center' }}>
+    <Card.Body>
+      <ItemTitleAndImage URI={itemMetaURI} />
+      <ExhibitSelectButton id={props.id} selectFunc={props.selectFunc} isSelected={props.isSelected}/>
+    </Card.Body>
   </Card>)
 }
 
@@ -30,6 +35,8 @@ const withContext = props => (
         drizzle={drizzle}
         drizzleState={drizzleState}
         id={props.id}
+        selectFunc={props.selectFunc}
+        isSelected={props.isSelected}
       />
     )}
   </DrizzleContext.Consumer>

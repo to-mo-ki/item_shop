@@ -62,6 +62,12 @@ describe('ItemShop', function () {
       await expectRevert(instance.exhibit(0, 22, 11, 0), "ItemShop: zero duration");
     });
 
+    it("reverts when duplicate exhibit", async function () {
+      await instance.mintItem();
+      await instance.exhibit(0, 22, 11, 33)
+      await expectRevert(instance.exhibit(0, 22, 11, 33), "ItemShop: this item is exhibited");
+    });
+
   });
 
   describe('getAuction', function () {
@@ -179,6 +185,11 @@ describe('ItemShop', function () {
     it("reverts when bid invalid auction", async function () {
       await expectRevert(instance.bid(1, { value: ether('19'), from: bidder }), "ItemShop: invalid auction")
     });
+
+    it("exhibit -> bid -> exhibit", async function(){
+      await instance.bid(0, { value: ether('19'), from: bidder });
+      await instance.exhibit(0, ether('20'), ether('10'), 10, {from: bidder });
+    })
   });
 
   describe("withdrawPayments", function () {
