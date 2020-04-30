@@ -6,10 +6,8 @@ import * as serviceWorker from './serviceWorker'
 
 import { Drizzle, generateStore } from '@drizzle/store'
 import { DrizzleContext } from '@drizzle/react-plugin'
-import ItemShop from './contracts/ItemShop.json'
 
 const options = {
-  contracts: [ItemShop],
   web3: {
     fallback: {
       type: 'ws',
