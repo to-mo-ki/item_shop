@@ -33,7 +33,8 @@ describe('ItemShop', function () {
 
     it("exhibit normally", async function () {
       await instance.mintItem();
-      await instance.exhibit(0, 22, 11, 33);
+      const receipt = await instance.exhibit(0, 22, 11, 33);
+      expectEvent(receipt, "Exhibit", { _id : '0' });
     });
 
     it("reverts when nonexist item", async function () {
@@ -166,7 +167,9 @@ describe('ItemShop', function () {
     });
     it("normal", async function () {
       tracker2 = await balance.tracker(bidder);
-      await instance.bid(0, { value: ether('19'), from: bidder });
+      const receipt = await instance.bid(0, { value: ether('19'), from: bidder });
+      expectEvent(receipt, "Bid", { _id: '0' });
+      expectEvent(receipt, "Transfer", { from: exhibitor, to : bidder, tokenId: '0' });
       expect(await tracker2.delta()).to.be.bignumber.that.closeTo(ether('-19'), '10000000000000000');
     });
 

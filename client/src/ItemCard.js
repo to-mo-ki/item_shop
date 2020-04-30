@@ -18,7 +18,6 @@ function ItemCard (props) {
     const itemMetaURI = contract.tokenURI[key] ? contract.tokenURI[key].value : undefined
     setItemMetaURI(itemMetaURI)
   }, [key, props.drizzleState])
-
   return (<Card key={props.id}>
     <ItemMetaData URI={itemMetaURI} />
   </Card>)

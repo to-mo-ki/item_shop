@@ -17,7 +17,7 @@ function AuctionList (props) {
 
   useEffect(() => {
     fetchAuctionKeys(props.drizzle.contracts.ItemShop)
-  }, [props.drizzle])
+  }, [props.drizzleState])
 
   const { ItemShop } = props.drizzleState.contracts
   const rows = keys.map(function (key, index) {

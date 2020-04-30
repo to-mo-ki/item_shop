@@ -17,19 +17,17 @@ function MyItemList (props) {
 
   useEffect(() => {
     fetchItemKeys(props.drizzle.contracts.ItemShop)
-  }, [props.drizzle])
+  }, [props.drizzleState])
 
   const { ItemShop } = props.drizzleState.contracts
   const itemToOwner = keys.map(key =>
     ItemShop.ownerOf[key] ? ItemShop.ownerOf[key].value : undefined
   )
-
   const account = props.drizzleState.accounts[0]
   const rows = itemToOwner.map(function (owner, index) {
     if (account !== owner) {
       return null
     }
-    console.log(index)
     return <ItemCard key={index} id={index}/>
   })
 

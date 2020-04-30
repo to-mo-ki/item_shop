@@ -15,7 +15,6 @@ function ItemMetaData (props) {
     }
     const res = await fetch(URI)
     const content = await res.json()
-    console.log(res, content)
     setName(content.name)
     setImage(content.image)
   }
