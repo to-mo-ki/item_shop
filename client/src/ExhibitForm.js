@@ -20,14 +20,15 @@ class ExhibitForm extends React.Component {
   durationHandleChange = (event) => {
     this.setState({ ...this.state, duration: event.target.value });
   };
-
+  
   render() {
+    console.log(this.props.selectedId)
     return (
       <Form>
         <Form.Row>
           <Form.Group >
             <Form.Label>ID</Form.Label>
-            <Form.Control type="number" onChange={this.idHandleChange} />
+            <Form.Control plaintext readOnly value={this.props.selectedId} />
           </Form.Group>
           <Form.Group>
             <Form.Label>startPrice</Form.Label>
@@ -41,7 +42,7 @@ class ExhibitForm extends React.Component {
             <Form.Label>duration</Form.Label>
             <Form.Control type="number" onChange={this.durationHandleChange} />
           </Form.Group>
-          <ExhibitButton index={this.state.id} startPrice={this.state.startPrice} endPrice={this.state.endPrice} duration={this.state.duration} />
+          <ExhibitButton index={this.props.selectedId} startPrice={this.state.startPrice} endPrice={this.state.endPrice} duration={this.state.duration} />
         </Form.Row>
       </Form>
     );

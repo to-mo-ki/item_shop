@@ -17,11 +17,11 @@ function ExhibitSelectButton (props) {
     const exhibited = contract.itemIsExhibited[key] ? contract.itemIsExhibited[key].value : false
     setExhibited(exhibited)
   }, [key, props.drizzleState])
-  console.log(props)
+
   if (exhibited) {
     return <Button variant="primary" disabled>exhibited</Button>
   } else {
-    return <Button variant="primary" onClick={props.selectFunc(props.id)}>select</Button>
+    return <Button variant="primary" onClick={() => props.selectFunc(props.id)}>select</Button>
   }
 }
 
