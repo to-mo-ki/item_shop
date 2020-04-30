@@ -3,10 +3,13 @@ import MyItemList from './MyItemList'
 import ExhibitForm from './ExhibitForm'
 
 function MyItem () {
+  const selectFunc = (id) => {
+    console.log(id)
+  }
   return (
     <div>
       <ExhibitForm />
-      <MyItemList />
+      <MyItemList selectFunc={selectFunc}/>
     </div>
   )
 }

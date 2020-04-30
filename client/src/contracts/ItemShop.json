@@ -12397,12 +12397,13 @@
         }
       },
       "links": {},
-      "address": "0x1BE587d4E386F1d2D7fA66bA24D2Edc745F5B68E",
-      "transactionHash": "0x0987416ecb0c6c96329434f38262746f9ec7d783c99cb4f261b7666ec72f30a7"
+      "address": "0x1355Fa50795D93783c562Fb1cEeA97A66FBf5Fd6",
+      "transactionHash": "0xde236ffc6cf0c7972d9af66de4351a67d00efe69d18dd9635d7b94c4f05519cf"
     }
   },
   "schemaVersion": "3.1.0",
-  "updatedAt": "2020-04-30T07:11:08.234Z",
+  "updatedAt": "2020-04-30T07:49:11.115Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
