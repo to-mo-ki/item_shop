@@ -9,7 +9,7 @@ function LoadingContainer (props) {
     if (props.initialized) {
       fetchNetwork(props.drizzle)
     }
-  }, [props.initialized])
+  }, [props.initialized, props.drizzle])
 
   const fetchNetwork = async (drizzle) => {
     const network = await drizzle.web3.eth.net.getNetworkType()
@@ -23,11 +23,9 @@ function LoadingContainer (props) {
     alert('ネットワークを' + process.env.REACT_APP_NETWORK_TYPE + 'に切り替えてください')
   }
   if (drizzle.contracts.ItemShop) {
-    console.log('exist item shop')
     return <div>{props.children}</div>
   }
   drizzle.addContract(ItemShop)
-  console.log('add item shop')
   return <div>{props.children}</div>
 }
 
