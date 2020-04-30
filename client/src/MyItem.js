@@ -12,7 +12,7 @@ function MyItem () {
   return (
     <div>
       <ExhibitForm selectedId={selectedId}/>
-      <MyItemList selectFunc={selectFunc}/>
+      <MyItemList selectFunc={selectFunc} selectedId={selectedId}/>
     </div>
   )
 }

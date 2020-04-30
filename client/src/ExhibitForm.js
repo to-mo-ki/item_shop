@@ -2,6 +2,16 @@ import React from "react";
 import ExhibitButton from "./ExhibitButton";
 import Form from 'react-bootstrap/Form';
 
+
+const innerStyle = {
+  margin: "10px"
+}
+
+const outerStyle = {
+  justifyContent:"center", 
+  alignItems: "center"
+}
+
 class ExhibitForm extends React.Component {
   state = { id: null, startPrice: null, endPrice: null, duration: null };
 
@@ -22,23 +32,18 @@ class ExhibitForm extends React.Component {
   };
   
   render() {
-    console.log(this.props.selectedId)
     return (
       <Form>
-        <Form.Row>
-          <Form.Group >
-            <Form.Label>ID</Form.Label>
-            <Form.Control plaintext readOnly value={this.props.selectedId} />
-          </Form.Group>
-          <Form.Group>
+        <Form.Row style={outerStyle}>
+          <Form.Group style={innerStyle}>
             <Form.Label>startPrice</Form.Label>
             <Form.Control type="number" onChange={this.startPriceHandleChange} />
           </Form.Group>
-          <Form.Group>
+          <Form.Group style={innerStyle}>
             <Form.Label>endPrice</Form.Label>
             <Form.Control type="number" onChange={this.endPriceHandleChange} />
           </Form.Group>
-          <Form.Group>
+          <Form.Group style={innerStyle}>
             <Form.Label>duration</Form.Label>
             <Form.Control type="number" onChange={this.durationHandleChange} />
           </Form.Group>

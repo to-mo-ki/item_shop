@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { DrizzleContext } from '@drizzle/react-plugin';
 import Button from 'react-bootstrap/Button';
 
+const style = {
+  margin:"10px"
+}
 class ExhibitButton extends Component {
   state = { stackId: null };
 
@@ -28,7 +31,7 @@ class ExhibitButton extends Component {
 
   render() {
     var { index, startPrice, endPrice, duration } = this.props;
-    var button = <Button variant="primary" onClick={() => this.onClick(index, startPrice, endPrice, duration)}>Exihibit</Button>;
+    var button = <Button variant="primary" style={style} onClick={() => this.onClick(index, startPrice, endPrice, duration)}>Exihibit</Button>;
     return (<div>
       {button}
       {this.getTxStatus()}

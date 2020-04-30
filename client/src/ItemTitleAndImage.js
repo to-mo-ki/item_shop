@@ -21,7 +21,7 @@ function ItemTitleAndImage (props) {
 
   return <div>
     <Card.Title>{name}</Card.Title>
-    <Card.Img src={image} />
+    <Card.Img src={image} style={{ margin: '10px' }}/>
   </div>
 }
 

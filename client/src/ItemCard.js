@@ -20,10 +20,10 @@ function ItemCard (props) {
     setItemMetaURI(itemMetaURI)
   }, [key, props.drizzleState])
 
-  return (<Card key={props.id}>
+  return (<Card key={props.id} style={{ textAlign: 'center' }}>
     <Card.Body>
       <ItemTitleAndImage URI={itemMetaURI} />
-      <ExhibitSelectButton id={props.id} selectFunc={props.selectFunc}/>
+      <ExhibitSelectButton id={props.id} selectFunc={props.selectFunc} isSelected={props.isSelected}/>
     </Card.Body>
   </Card>)
 }
@@ -36,6 +36,7 @@ const withContext = props => (
         drizzleState={drizzleState}
         id={props.id}
         selectFunc={props.selectFunc}
+        isSelected={props.isSelected}
       />
     )}
   </DrizzleContext.Consumer>

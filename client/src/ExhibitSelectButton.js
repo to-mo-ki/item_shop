@@ -17,11 +17,14 @@ function ExhibitSelectButton (props) {
     const exhibited = contract.itemIsExhibited[key] ? contract.itemIsExhibited[key].value : false
     setExhibited(exhibited)
   }, [key, props.drizzleState])
-
   if (exhibited) {
-    return <Button variant="primary" disabled>exhibited</Button>
+    return <Button variant="secondary" disabled>exhibited</Button>
   } else {
-    return <Button variant="primary" onClick={() => props.selectFunc(props.id)}>select</Button>
+    if (props.isSelected) {
+      return <Button variant="primary" disabled>selected</Button>
+    } else {
+      return <Button variant="primary" onClick={() => props.selectFunc(props.id)}>select</Button>
+    }
   }
 }
 
@@ -33,6 +36,7 @@ const withContext = props => (
         drizzleState={drizzleState}
         id={props.id}
         selectFunc={props.selectFunc}
+        isSelected={props.isSelected}
       />
     )}
   </DrizzleContext.Consumer>

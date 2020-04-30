@@ -28,7 +28,7 @@ function MyItemList (props) {
     if (account !== owner) {
       return null
     }
-    return <ItemCard key={index} id={index} selectFunc={props.selectFunc}/>
+    return <ItemCard key={index} id={index} selectFunc={props.selectFunc} isSelected={props.selectedId === index}/>
   })
 
   return (
@@ -45,6 +45,7 @@ const withContext = (props) => (
         drizzle={drizzle}
         drizzleState={drizzleState}
         selectFunc={props.selectFunc}
+        selectedId={props.selectedId}
       />
     )}
   </DrizzleContext.Consumer>
