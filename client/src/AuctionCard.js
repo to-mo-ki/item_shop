@@ -3,12 +3,12 @@ import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
 import BidButton from './BidButton'
 import useAuction from './useAuction'
-import CurrentPrice from './CurrentPrice'
 import ItemTitleAndImage from './ItemTitleAndImage'
+import useCurrentPrice from './useCurrentPrice'
 
 function AuctionCard (props) {
-  const [price, setPrice] = useState(0)
   const data = useAuction(props.id, props.drizzle, props.drizzleState)
+  const price = useCurrentPrice(props.id, props.drizzle, props.drizzleState)
   if (!data) return null
   const { 0: tokenId, 1: startPrice, 2: endPrice, 3: duration, 4: owner, 5: createdAt } = data
   const startWeiPrice = props.drizzle.web3.utils.fromWei(startPrice, 'ether')
@@ -24,7 +24,7 @@ function AuctionCard (props) {
         duration:{duration}<br />
         owner:{owner}<br />
         createdAt:{createdAt}<br />
-        currentPrice:<CurrentPrice id={id} setPrice={setPrice}/><br />
+        currentPrice:{price}
       </Card.Text>
       <BidButton index={id} price={price} />
     </Card.Body>
