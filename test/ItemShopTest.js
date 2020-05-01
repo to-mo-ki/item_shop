@@ -172,11 +172,13 @@ describe('ItemShop', function () {
       await instance.exhibit(0, ether('20'), ether('10'), 10, { from: exhibitor });
     });
     it("normal", async function () {
-      tracker2 = await balance.tracker(bidder);
+      const exhibitorTracker = await balance.tracker(exhibitor);
+      const bidderTracker = await balance.tracker(bidder);
       const receipt = await instance.bid(0, { value: ether('19'), from: bidder });
       expectEvent(receipt, "Bid", { _id: '0' });
       expectEvent(receipt, "Transfer", { from: exhibitor, to : bidder, tokenId: '0' });
-      expect(await tracker2.delta()).to.be.bignumber.that.closeTo(ether('-19'), '10000000000000000');
+      expect(await exhibitorTracker.delta()).to.be.bignumber.that.equals(ether('19'));
+      expect(await bidderTracker.delta()).to.be.bignumber.that.closeTo(ether('-19'), '10000000000000000');
     });
 
     it("revert when bid invalid price", async function () {
