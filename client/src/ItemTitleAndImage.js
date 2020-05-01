@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
+import useTokenURI from './useTokenURI'
+import useMetaData from './useMetaData'
 
 function ItemTitleAndImage (props) {
-  const [name, setName] = useState('')
-  const [image, setImage] = useState('')
-
-  useEffect(() => {
-    fetchNames(props.URI)
-  }, [props.URI])
-
-  const fetchNames = async (URI) => {
-    if (URI === undefined || URI.length === 0) {
-      return
-    }
-    const res = await fetch(URI)
-    const content = await res.json()
-    setName(content.name)
-    setImage(content.image)
-  }
+  const URI = useTokenURI(props.id, props.drizzle, props.drizzleState)
+  const { name, image } = useMetaData(URI)
 
   return <div>
     <Card.Title>{name}</Card.Title>
@@ -25,4 +14,16 @@ function ItemTitleAndImage (props) {
   </div>
 }
 
-export default ItemTitleAndImage
+const withContext = props => (
+  <DrizzleContext.Consumer>
+    {({ drizzle, drizzleState }) => (
+      <ItemTitleAndImage
+        drizzle={drizzle}
+        drizzleState={drizzleState}
+        id={props.id}
+      />
+    )}
+  </DrizzleContext.Consumer>
+)
+
+export default withContext
