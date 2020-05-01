@@ -91,6 +91,7 @@ contract ItemShop is ItemToken {
         uint256 tokenId = auction.tokenId;
         delete itemIsExhibited[tokenId];
         this.safeTransferFrom(owner, msg.sender, tokenId);
+        owner.sendValue(msg.value);
         emit Bid(_id);
     }
 
