@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
 import BidButton from './BidButton'
 import useAuction from './useAuction'
 import ItemTitleAndImage from './ItemTitleAndImage'
 import useCurrentPrice from './useCurrentPrice'
-import { Grid, Row, Col, Container } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
 
 function AuctionCard (props) {
   const data = useAuction(props.id, props.drizzle, props.drizzleState)
@@ -37,7 +37,7 @@ function AuctionCard (props) {
           <Col>{price}</Col>
         </Row>
       </Container>
-      <BidButton index={id} price={price} />
+      <BidButton index={id} price={price} setTxStatus={props.setTxStatus}/>
     </Card.Body>
   </Card>)
 }
@@ -49,6 +49,7 @@ const withContext = props => (
         drizzle={drizzle}
         drizzleState={drizzleState}
         id={props.id}
+        setTxStatus={props.setTxStatus}
       />
     )}
   </DrizzleContext.Consumer>
