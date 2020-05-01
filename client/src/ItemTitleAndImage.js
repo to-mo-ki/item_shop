@@ -1,8 +1,8 @@
 import React from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import Card from 'react-bootstrap/Card'
 import useTokenURI from './useTokenURI'
 import useMetaData from './useMetaData'
+import withDrizzleContext from './withDrizzleContext'
 
 function ItemTitleAndImage (props) {
   const URI = useTokenURI(props.id, props.drizzle, props.drizzleState)
@@ -14,16 +14,4 @@ function ItemTitleAndImage (props) {
   </div>
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <ItemTitleAndImage
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-        id={props.id}
-      />
-    )}
-  </DrizzleContext.Consumer>
-)
-
-export default withContext
+export default withDrizzleContext(ItemTitleAndImage)

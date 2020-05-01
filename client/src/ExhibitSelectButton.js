@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import Button from 'react-bootstrap/Button'
+import withDrizzleContext from './withDrizzleContext'
 
 function ExhibitSelectButton (props) {
   const [exhibited, setExhibited] = useState(false)
@@ -28,18 +28,4 @@ function ExhibitSelectButton (props) {
   }
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <ExhibitSelectButton
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-        id={props.id}
-        selectFunc={props.selectFunc}
-        isSelected={props.isSelected}
-      />
-    )}
-  </DrizzleContext.Consumer>
-)
-
-export default withContext
+export default withDrizzleContext(ExhibitSelectButton)

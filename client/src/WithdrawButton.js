@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { DrizzleContext } from '@drizzle/react-plugin';
 import Button from 'react-bootstrap/Button';
+import withDrizzleContext from './withDrizzleContext';
 
 class WithdrawButton extends Component {
   state = { stackId: null };
@@ -38,14 +38,4 @@ class WithdrawButton extends Component {
   }
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <WithdrawButton
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-      />
-    )}
-  </DrizzleContext.Consumer>
-);
-export default withContext;
+export default withDrizzleContext(WithdrawButton)
