@@ -5,6 +5,7 @@ import AuctionCard from './AuctionCard'
 
 function AuctionList (props) {
   const [keys, setKeys] = useState([])
+  const [txStatus, setTxStatus] = useState('')
 
   const fetchAuctionKeys = async (contract) => {
     const itemCount = await contract.methods.getAuctionCount().call()
@@ -24,13 +25,16 @@ function AuctionList (props) {
     const valid = ItemShop.valid[key] ? ItemShop.valid[key].value : false
     if (!valid) return null
     console.log(index)
-    return <AuctionCard key={index} id={index}/>
+    return <AuctionCard key={index} id={index} setTxStatus={setTxStatus}/>
   })
 
   return (
-    <CardColumns>
-      {rows}
-    </CardColumns>
+    <>
+      Transaction status: {txStatus}
+      <CardColumns>
+        {rows}
+      </CardColumns>
+    </>
   )
 }
 

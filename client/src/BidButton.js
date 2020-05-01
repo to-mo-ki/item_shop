@@ -1,45 +1,32 @@
-import React, { Component } from 'react';
-import { DrizzleContext } from '@drizzle/react-plugin';
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect } from 'react'
+import { DrizzleContext } from '@drizzle/react-plugin'
+import Button from 'react-bootstrap/Button'
 
-class BidButton extends Component {
-  state = { stackId: null };
+function BidButton (props) {
+  const [stackId, setStackId] = useState(null)
 
-  constructor(props) {
-    super(props);
-    this.onClick = (index, price) => {
-      const { drizzle, drizzleState } = this.props;
-      const contract = drizzle.contracts.ItemShop;
-      const stackId = contract.methods.bid.cacheSend(index, {
-        value: price,
-        from: drizzleState.accounts[0],
-      });
-      this.setState({ stackId });
-      //this.props.turnFetchStatus(true);
-    };
+  const bid = () => {
+    const { drizzle, drizzleState, index, price } = props
+    const contract = drizzle.contracts.ItemShop
+    const stackId = contract.methods.bid.cacheSend(index, {
+      value: drizzle.web3.utils.toWei(price, 'ether'),
+      from: drizzleState.accounts[0]
+    })
+    setStackId(stackId)
   }
 
-  getTxStatus = () => {
-    // get the transaction states from the drizzle state
-    const { transactions, transactionStack } = this.props.drizzleState;
-    // get the transaction hash using our saved `stackId`
-    const txHash = transactionStack[this.state.stackId];
-    // if transaction hash does not exist, don't display anything
-    if (!txHash) return null;
-    // otherwise, return the transaction status
-    return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`;
-  };
-
-  render() {
-    var button;
-    var price = this.props.price;
-    var index = this.props.index;
-    button = <Button variant="primary" onClick={() => this.onClick(index, price)}>buy</Button>;
-    return (<div>
-      {button}
-      {this.getTxStatus()}
-    </div>);
+  const getTxStatus = () => {
+    const { transactions, transactionStack } = props.drizzleState
+    const txHash = transactionStack[stackId]
+    if (!txHash || !transactions[txHash]) return ''
+    return transactions[txHash].status
   }
+
+  useEffect(() => {
+    props.setTxStatus(getTxStatus())
+  }, [props.drizzleState])
+
+  return <Button variant="primary" onClick={bid}>buy</Button>
 }
 
 const withContext = props => (
@@ -50,8 +37,9 @@ const withContext = props => (
         drizzleState={drizzleState}
         price={props.price}
         index={props.index}
+        setTxStatus={props.setTxStatus}
       />
     )}
   </DrizzleContext.Consumer>
-);
-export default withContext;
+)
+export default withContext
