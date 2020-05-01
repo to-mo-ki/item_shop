@@ -14,8 +14,13 @@ function useMetaData (URI) {
     }
     const res = await fetch(URI)
     const content = await res.json()
-    setName(content.name)
-    setImage(content.image)
+    if (typeof (content.name) === 'string') {
+      setName(content.name)
+    }
+    if (typeof (content.image) === 'string') {
+      setImage(content.image)
+    }
+    console.log(content)
   }
 
   return { name, image }
