@@ -5,6 +5,7 @@ import BidButton from './BidButton'
 import useAuction from './useAuction'
 import ItemTitleAndImage from './ItemTitleAndImage'
 import useCurrentPrice from './useCurrentPrice'
+import { Grid, Row, Col, Container } from 'react-bootstrap'
 
 function AuctionCard (props) {
   const data = useAuction(props.id, props.drizzle, props.drizzleState)
@@ -19,13 +20,23 @@ function AuctionCard (props) {
     <Card.Body>
       <ItemTitleAndImage id={tokenId} />
       <Card.Text>
-        startPrice:{startWeiPrice}<br />
-        endPrice:{endWeiPrice}<br />
         duration:{duration}<br />
         owner:{owner}<br />
         createdAt:{createdAt}<br />
-        currentPrice:{price}
       </Card.Text>
+      Price:
+      <Container style={{ textAlign: 'center', margin: '10px' }}>
+        <Row>
+          <Col>start</Col>
+          <Col>end</Col>
+          <Col>current</Col>
+        </Row>
+        <Row>
+          <Col>{startWeiPrice}</Col>
+          <Col>{endWeiPrice}</Col>
+          <Col>{price}</Col>
+        </Row>
+      </Container>
       <BidButton index={id} price={price} />
     </Card.Body>
   </Card>)
