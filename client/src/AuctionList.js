@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import CardColumns from 'react-bootstrap/CardColumns'
 import AuctionCard from './AuctionCard'
+import withDrizzleContext from './withDrizzleContext'
 
 function AuctionList (props) {
   const [keys, setKeys] = useState([])
@@ -38,14 +38,4 @@ function AuctionList (props) {
   )
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <AuctionList
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-      />
-    )}
-  </DrizzleContext.Consumer>
-)
-export default withContext
+export default withDrizzleContext(AuctionList)

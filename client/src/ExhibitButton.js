@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { DrizzleContext } from '@drizzle/react-plugin';
 import Button from 'react-bootstrap/Button';
+import withDrizzleContext from './withDrizzleContext';
 
 const style = {
   margin:"10px"
@@ -39,18 +39,4 @@ class ExhibitButton extends Component {
   }
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <ExhibitButton
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-        index={props.index}
-        startPrice={props.startPrice}
-        endPrice={props.endPrice}
-        duration={props.duration}
-      />
-    )}
-  </DrizzleContext.Consumer>
-);
-export default withContext;
+export default withDrizzleContext(ExhibitButton)

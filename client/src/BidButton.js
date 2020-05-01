@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import Button from 'react-bootstrap/Button'
+import withDrizzleContext from './withDrizzleContext'
 
 function BidButton (props) {
   const [stackId, setStackId] = useState(null)
@@ -29,17 +29,4 @@ function BidButton (props) {
   return <Button variant="primary" onClick={bid}>buy</Button>
 }
 
-const withContext = props => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <BidButton
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-        price={props.price}
-        index={props.index}
-        setTxStatus={props.setTxStatus}
-      />
-    )}
-  </DrizzleContext.Consumer>
-)
-export default withContext
+export default withDrizzleContext(BidButton)

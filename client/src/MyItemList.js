@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import CardColumns from 'react-bootstrap/CardColumns'
 import ItemCard from './ItemCard'
+import withDrizzleContext from './withDrizzleContext'
 
 function MyItemList (props) {
   const [keys, setKeys] = useState([])
@@ -38,17 +38,4 @@ function MyItemList (props) {
   )
 }
 
-const withContext = (props) => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <MyItemList
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-        selectFunc={props.selectFunc}
-        selectedId={props.selectedId}
-      />
-    )}
-  </DrizzleContext.Consumer>
-)
-
-export default withContext
+export default withDrizzleContext(MyItemList)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { DrizzleContext } from '@drizzle/react-plugin'
 import uploadIpfs from './IpfsUploader'
 import Button from 'react-bootstrap/Button'
+import withDrizzleContext from './withDrizzleContext'
 
 function AddItem (props) {
   const [stackId, setStackId] = useState(null)
@@ -54,14 +54,4 @@ function AddItem (props) {
   )
 }
 
-const withContext = () => (
-  <DrizzleContext.Consumer>
-    {({ drizzle, drizzleState }) => (
-      <AddItem
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-      />
-    )}
-  </DrizzleContext.Consumer>
-)
-export default withContext
+export default withDrizzleContext(AddItem)
