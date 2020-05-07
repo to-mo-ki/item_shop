@@ -7,6 +7,12 @@ import useCurrentPrice from './useCurrentPrice'
 import { Row, Col, Container } from 'react-bootstrap'
 import withDrizzleContext from './withDrizzleContext'
 
+function displayDuration (duration) {
+  if (duration % (60 * 60 * 24) === 0) return duration / (60 * 60 * 24) + '日'
+  if (duration % (60 * 60) === 0) return duration / (60 * 60) + '時間'
+  if (duration % 60 === 0) return duration / 60 + '分'
+  return duration + '秒'
+}
 function AuctionCard (props) {
   const data = useAuction(props.id, props.drizzle, props.drizzleState)
   const price = useCurrentPrice(props.id, props.drizzle, props.drizzleState)
@@ -20,7 +26,7 @@ function AuctionCard (props) {
     <Card.Body>
       <ItemTitleAndImage id={tokenId} />
       <Card.Text>
-        duration:{duration}<br />
+        duration:{displayDuration(duration)}<br />
         owner:{owner}<br />
         createdAt:{createdAt}<br />
       </Card.Text>
