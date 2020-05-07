@@ -13,11 +13,22 @@ function displayDuration (duration) {
   if (duration % 60 === 0) return duration / 60 + '分'
   return duration + '秒'
 }
+
+function timestampToDateTime (timestamp) {
+  const d = new Date(timestamp * 1000)
+  var year = d.getFullYear()
+  var month = d.getMonth() + 1
+  var day = d.getDate()
+  var hour = (d.getHours() < 10) ? '0' + d.getHours() : d.getHours()
+  var min = (d.getMinutes() < 10) ? '0' + d.getMinutes() : d.getMinutes()
+  var sec = (d.getSeconds() < 10) ? '0' + d.getSeconds() : d.getSeconds()
+  return year + '年' + month + '月' + day + '日 ' + hour + ':' + min + ':' + sec
+}
 function AuctionCard (props) {
   const data = useAuction(props.id, props.drizzle, props.drizzleState)
   const price = useCurrentPrice(props.id, props.drizzle, props.drizzleState)
   if (!data) return null
-  const { 0: tokenId, 1: startPrice, 2: endPrice, 3: duration, 4: owner, 5: createdAt } = data
+  const { 0: tokenId, 1: startPrice, 2: endPrice, 3: duration, 4: owner, 5: createdAt, 6: createdAtTimeStamp } = data
   const startWeiPrice = props.drizzle.web3.utils.fromWei(startPrice, 'ether')
   const endWeiPrice = props.drizzle.web3.utils.fromWei(endPrice, 'ether')
   const id = props.id
@@ -26,9 +37,9 @@ function AuctionCard (props) {
     <Card.Body>
       <ItemTitleAndImage id={tokenId} />
       <Card.Text>
-        duration:{displayDuration(duration)}<br />
         owner:{owner}<br />
-        createdAt:{createdAt}<br />
+        期間:{displayDuration(duration)}<br />
+        開始時間:{timestampToDateTime(createdAtTimeStamp)}<br />
       </Card.Text>
       Price:
       <Container style={{ textAlign: 'center', margin: '10px' }}>
