@@ -19,6 +19,7 @@ contract ItemShop is ItemToken {
         uint256 duration;
         address owner;
         uint256 createdAt;
+        uint256 createdAtTimestamp;
     }
 
     Auction[] auctions;
@@ -43,14 +44,14 @@ contract ItemShop is ItemToken {
         itemIsExhibited[tokenId] = true;
         uint256 createdAt = block.number * secondsPerBlock;
         address owner = ownerOf(tokenId);
-        Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt);
+        Auction memory newAuction = Auction(tokenId, startPrice, endPrice, duration, owner, createdAt, now);
         uint256 newId = auctions.push(newAuction) - 1;
         valid[newId] = true;
         approve(address(this), tokenId);
         emit Exhibit(newId);
     }
 
-    function getAuction(uint256 _id) public view returns (uint256, uint256, uint256, uint256, address, uint256) {
+    function getAuction(uint256 _id) public view returns (uint256, uint256, uint256, uint256, address, uint256, uint256) {
         require(_id < auctions.length, "ItemShop: nonexist auction id");
         Auction storage auction = auctions[_id];
         return (
@@ -59,7 +60,8 @@ contract ItemShop is ItemToken {
             auction.endPrice,
             auction.duration,
             auction.owner,
-            auction.createdAt
+            auction.createdAt,
+            auction.createdAtTimestamp
         );
     }
 
