@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import CardColumns from 'react-bootstrap/CardColumns'
-import MyItem from './MyItem'
+import Item from './Item'
 import withDrizzleContext from '../common/withDrizzleContext'
 
 function MyItemList (props) {
@@ -17,7 +17,7 @@ function MyItemList (props) {
 
   const items = []
   for (let index = 0; index < count; index++) {
-    items.push(<MyItem key={index} id={index} selectFunc={props.selectFunc} isSelected={props.selectedId === index}/>)
+    items.push(<Item key={index} id={index} selectFunc={props.selectFunc} isSelected={props.selectedId === index}/>)
   }
 
   return (
