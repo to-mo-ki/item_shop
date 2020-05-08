@@ -12,9 +12,70 @@
 アイテムの追加を行う。管理者のみが実行できる。
 ![代替テキスト](./document/Admin_page.png)
 
-
 ## Open Seaでも取引が可能
-![](2020-05-07-15-29-26.png)
+![](./document/opensea.png)
+
+# ディレクトリ構成図
+root/
+┣ client/: クライアント側
+┃ ┣ public/
+┃ ┗ src/: reactのソースファイル
+┃　　┣ admin/: 管理者ページ
+┃　　┣ common/: 共通で使うもの
+┃　　┣ contracts/: solidityのartifacts
+┃　　┣ home/：オークションのページ
+┃　　┗ my_item/：My Itemのページ
+┣ contracts/: solidityファイル
+┣ document/: このReadmeで使用している画像
+┣ migrations/: マイグレーションファイル
+┗ test/: Solidityのテストファイル
+
+# How to run
+## 環境変数
+- REACT_APP_INFURA_URL：ブロックチェーンURL
+infuraのrinkebyだと"wss://rinkeby.infura.io/ws/v3/"+"PROJECT ID"
+- REACT_APP_NETWORK_TYPE："private" | "rinkeby"
+- REACT_APP_IPFS_HOST：ipfsに使用するホスト
+- REACT_APP_IPFS_PROTOCOL："http" | "https"
+- REACT_APP_IPFS_BASE_URL：ERC721に登録するベースURI
+- INFURA_ACCESS_TOKEN：デプロイに使用するアカウントの秘密鍵
+- INFURA_DEPLOY_ACCOUNT_PRIVATE_KEY：infuraのrinkebyだと"PROJECT ID"
+
+## server: solidity
+```
+$ npm install
+$ npm install -g truffle
+# コンパイル
+truffle compile
+# ローカル環境にデプロイ
+$ truffle migrate --network development
+# rinkebyネットワークにデプロイ
+$ truffle migrate --network rinkeby
+```
+
+## client: react
+```
+$ cd client
+$ npm install
+$ npm start
+```
+
+## ipfsの起動(mac)
+```
+$ brew install ipfs
+$ ipfs init
+$ brew services start ipfs
+# CORSの設定
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+# 止める場合
+$ brew services stop ipfs
+```
+
+## ローカルブロックチェーン(mac)
+```
+brew cask install ganache
+```
+インストール後、アプリケーションフォルダからganacheを起動
 
 # テストネット環境構築手順
 ## infura.ioのアカウント作成
