@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
-import MyItemList from './MyItemList'
-import ExhibitForm from './ExhibitForm'
+import React from 'react'
+import ItemTitleAndImage from './ItemTitleAndImage'
+import ExhibitSelectButton from './ExhibitSelectButton'
+import Card from 'react-bootstrap/Card'
+import withDrizzleContext from './withDrizzleContext'
 
-function MyItem () {
-  const [selectedId, setSelectedId] = useState(-1)
-
-  const selectFunc = (id) => {
-    setSelectedId(id)
-    console.log(id)
-  }
-  return (
-    <div>
-      <ExhibitForm selectedId={selectedId}/>
-      <MyItemList selectFunc={selectFunc} selectedId={selectedId}/>
-    </div>
-  )
+function MyItem (props) {
+  return (<Card key={props.id} style={{ textAlign: 'center' }}>
+    <Card.Body>
+      <ItemTitleAndImage id={props.id}/>
+      <ExhibitSelectButton id={props.id} selectFunc={props.selectFunc} isSelected={props.isSelected}/>
+    </Card.Body>
+  </Card>)
 }
 
-export default MyItem
+export default withDrizzleContext(MyItem)

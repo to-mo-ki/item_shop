@@ -1,11 +1,11 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import useTokenURI from './useTokenURI'
+import useCacheCall from './useCacheCall'
 import useMetaData from './useMetaData'
 import withDrizzleContext from './withDrizzleContext'
 
 function ItemTitleAndImage (props) {
-  const URI = useTokenURI(props.id, props.drizzle, props.drizzleState)
+  const URI = useCacheCall('tokenURI', props.id, props.drizzle, props.drizzleState)
   const { name, image } = useMetaData(URI)
 
   return <div>

@@ -9,7 +9,7 @@ function ExhibitButton (props) {
   const [stackId, setStackId] = useState('')
 
   const onClick = (index, startPrice, endPrice, duration) => {
-    const { drizzle, drizzleState } = this.props
+    const { drizzle, drizzleState } = props
     const contract = drizzle.contracts.ItemShop
     const startWeiPrice = drizzle.web3.utils.toWei(startPrice, 'ether')
     const endWeiPrice = drizzle.web3.utils.toWei(endPrice, 'ether')
