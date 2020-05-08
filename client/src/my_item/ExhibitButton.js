@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import withDrizzleContext from './withDrizzleContext'
+import withDrizzleContext from '../common/withDrizzleContext'
 
 const style = {
   margin: '10px'

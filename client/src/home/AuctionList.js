@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import CardColumns from 'react-bootstrap/CardColumns'
-import withDrizzleContext from './withDrizzleContext'
+import withDrizzleContext from '../common/withDrizzleContext'
 import Auction from './Auction'
 
 function AuctionList (props) {

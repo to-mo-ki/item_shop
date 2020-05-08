@@ -1,11 +1,11 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
 import BidButton from './BidButton'
-import useCacheCall from './useCacheCall'
-import ItemTitleAndImage from './ItemTitleAndImage'
+import useCacheCall from '../common/useCacheCall'
+import ItemTitleAndImage from '../common/ItemTitleAndImage'
 import useCurrentPrice from './useCurrentPrice'
 import { Row, Col, Container } from 'react-bootstrap'
-import withDrizzleContext from './withDrizzleContext'
+import withDrizzleContext from '../common/withDrizzleContext'
 
 function displayDuration (duration) {
   if (duration % (60 * 60 * 24) === 0) return duration / (60 * 60 * 24) + '日'
@@ -24,7 +24,7 @@ function timestampToDateTime (timestamp) {
   var sec = (d.getSeconds() < 10) ? '0' + d.getSeconds() : d.getSeconds()
   return year + '年' + month + '月' + day + '日 ' + hour + ':' + min + ':' + sec
 }
-function MyAuction (props) {
+function ValidAuction (props) {
   const data = useCacheCall('getAuction', props.id, props.drizzle, props.drizzleState)
   const price = useCurrentPrice(props.id, props.drizzle, props.drizzleState)
   if (!data) return null
@@ -59,4 +59,4 @@ function MyAuction (props) {
   </Card>)
 }
 
-export default withDrizzleContext(MyAuction)
+export default withDrizzleContext(ValidAuction)

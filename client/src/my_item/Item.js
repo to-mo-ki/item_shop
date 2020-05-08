@@ -1,6 +1,6 @@
 import React from 'react'
-import useCacheCall from './useCacheCall'
-import withDrizzleContext from './withDrizzleContext'
+import useCacheCall from '../common/useCacheCall'
+import withDrizzleContext from '../common/withDrizzleContext'
 import MyItem from './MyItem'
 
 function Item (props) {

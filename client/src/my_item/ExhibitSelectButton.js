@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
-import withDrizzleContext from './withDrizzleContext'
-import useCacheCall from './useCacheCall'
+import withDrizzleContext from '../common/withDrizzleContext'
+import useCacheCall from '../common/useCacheCall'
 
 function ExhibitSelectButton (props) {
   const exhibited = useCacheCall('itemIsExhibited', props.id, props.drizzle, props.drizzleState)

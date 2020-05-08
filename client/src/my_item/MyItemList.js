@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import CardColumns from 'react-bootstrap/CardColumns'
 import MyItem from './MyItem'
-import withDrizzleContext from './withDrizzleContext'
+import withDrizzleContext from '../common/withDrizzleContext'
 
 function MyItemList (props) {
   const [count, setCount] = useState(0)
