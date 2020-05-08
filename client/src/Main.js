@@ -3,9 +3,9 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 import './App.css'
 
-import Home from './Home'
-import MyItemPage from './MyItemPage'
-import AdminPage from './AdminPage'
+import Home from './home/Home'
+import MyItemPage from './my_item/MyItemPage'
+import AdminPage from './admin/AdminPage'
 
 function Main () {
   return (

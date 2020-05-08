@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import uploadIpfs from './IpfsUploader'
+import uploadIpfs from '../common/IpfsUploader'
 import Button from 'react-bootstrap/Button'
-import withDrizzleContext from './withDrizzleContext'
+import withDrizzleContext from '../common/withDrizzleContext'
 
 function AddItem (props) {
   const [stackId, setStackId] = useState(null)

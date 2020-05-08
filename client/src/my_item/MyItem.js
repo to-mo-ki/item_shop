@@ -1,8 +1,8 @@
 import React from 'react'
-import ItemTitleAndImage from './ItemTitleAndImage'
+import ItemTitleAndImage from '../common/ItemTitleAndImage'
 import ExhibitSelectButton from './ExhibitSelectButton'
 import Card from 'react-bootstrap/Card'
-import withDrizzleContext from './withDrizzleContext'
+import withDrizzleContext from '../common/withDrizzleContext'
 
 function MyItem (props) {
   return (<Card key={props.id} style={{ textAlign: 'center' }}>
