@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { DrizzleContext } from '@drizzle/react-plugin'
 
 function LoadingContainer (props) {
-  const [network, setNetwork] = useState('')
+  const [network, setNetwork] = useState(undefined)
 
   useEffect(() => {
     if (props.initialized) {
@@ -18,9 +18,12 @@ function LoadingContainer (props) {
 
   const drizzle = props.drizzle
   if (!props.initialized) return 'Loading...'
-  if (network === '') return 'Network checking...'
+  if (!network) return 'Network checking...'
   if (network !== process.env.REACT_APP_NETWORK_TYPE) {
-    alert('ネットワークを' + process.env.REACT_APP_NETWORK_TYPE + 'に切り替えてください')
+    return (
+      <div style={{ margin: '30px', fontSize: '30px' }}>Wrong network!<br />
+      Change {process.env.REACT_APP_NETWORK_TYPE}  network.</div>
+    )
   }
   if (!drizzle.contracts.ItemShop) drizzle.addContract(ItemShop)
   if (!props.drizzleState.contracts.ItemShop) return 'Contract adding...'
