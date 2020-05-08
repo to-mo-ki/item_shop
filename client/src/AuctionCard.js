@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
 import BidButton from './BidButton'
-import useAuction from './useAuction'
+import useCacheCall from './useCacheCall'
 import ItemTitleAndImage from './ItemTitleAndImage'
 import useCurrentPrice from './useCurrentPrice'
 import { Row, Col, Container } from 'react-bootstrap'
@@ -25,7 +25,7 @@ function timestampToDateTime (timestamp) {
   return year + '年' + month + '月' + day + '日 ' + hour + ':' + min + ':' + sec
 }
 function AuctionCard (props) {
-  const data = useAuction(props.id, props.drizzle, props.drizzleState)
+  const data = useCacheCall('getAuction', props.id, props.drizzle, props.drizzleState)
   const price = useCurrentPrice(props.id, props.drizzle, props.drizzleState)
   if (!data) return null
   const { 0: tokenId, 1: startPrice, 2: endPrice, 3: duration, 4: owner, 5: createdAt, 6: createdAtTimeStamp } = data
