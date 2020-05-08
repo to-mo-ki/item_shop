@@ -22,17 +22,15 @@ function LoadingContainer (props) {
   if (network !== process.env.REACT_APP_NETWORK_TYPE) {
     alert('ネットワークを' + process.env.REACT_APP_NETWORK_TYPE + 'に切り替えてください')
   }
-  if (drizzle.contracts.ItemShop) {
-    return <div>{props.children}</div>
-  }
-  drizzle.addContract(ItemShop)
+  if (!drizzle.contracts.ItemShop) drizzle.addContract(ItemShop)
+  if (!props.drizzleState.contracts.ItemShop) return 'Contract adding...'
   return <div>{props.children}</div>
 }
 
 const withContext = (props) => (
   <DrizzleContext.Consumer>
-    {({ initialized, drizzle }) => (
-      <LoadingContainer drizzle={drizzle} initialized={initialized}>
+    {({ initialized, drizzle, drizzleState }) => (
+      <LoadingContainer drizzle={drizzle} drizzleState={drizzleState} initialized={initialized}>
         {props.children}
       </LoadingContainer>
     )}
