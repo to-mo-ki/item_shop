@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Button from 'react-bootstrap/Button'
 import withDrizzleContext from './withDrizzleContext'
+import useCacheCall from './useCacheCall'
 
 function ExhibitSelectButton (props) {
-  const [exhibited, setExhibited] = useState(false)
-  const [key, setKey] = useState('')
+  const exhibited = useCacheCall('itemIsExhibited', props.id, props.drizzle, props.drizzleState)
 
-  useEffect(() => {
-    const contract = props.drizzle.contracts.ItemShop
-    const key = contract.methods.itemIsExhibited.cacheCall(props.id)
-    setKey(key)
-  }, [props.id])
-
-  useEffect(() => {
-    const contract = props.drizzleState.contracts.ItemShop
-    const exhibited = contract.itemIsExhibited[key] ? contract.itemIsExhibited[key].value : false
-    setExhibited(exhibited)
-  }, [key, props.drizzleState])
   if (exhibited) {
     return <Button variant="secondary" disabled>exhibited</Button>
   } else {
