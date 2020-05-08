@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import MyItemList from './MyItemList'
 import ExhibitForm from './ExhibitForm'
 
-function MyItem () {
+function MyItemPage () {
   const [selectedId, setSelectedId] = useState(-1)
 
   const selectFunc = (id) => {
@@ -17,4 +17,4 @@ function MyItem () {
   )
 }
 
-export default MyItem
+export default MyItemPage
