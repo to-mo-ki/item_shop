@@ -16,6 +16,7 @@
 ![](./document/opensea.png)
 
 # ディレクトリ構成図
+```
 root/
 ┣ client/: クライアント側
 ┃ ┣ public/
@@ -29,6 +30,7 @@ root/
 ┣ document/: このReadmeで使用している画像
 ┣ migrations/: マイグレーションファイル
 ┗ test/: Solidityのテストファイル
+```
 
 # How to run
 ## 環境変数
