@@ -18,10 +18,26 @@ function isValidData (index, startPrice, endPrice) {
   return true
 }
 
+function isPositiveNumber (str) {
+  const res = Number(str)
+  if (!isNaN(res) && res > 0) {
+    return true
+  }
+  return false
+}
+
 function ExhibitButton (props) {
   const [stackId, setStackId] = useState('')
 
   const onClick = (index, startPrice, endPrice, duration) => {
+    if (!(isPositiveNumber(startPrice) && isPositiveNumber(endPrice) && isPositiveNumber(duration))) {
+      alert('開始価格・終了価格・期間はすべて正の数にしてください')
+      return
+    }
+    if (!Number.isInteger(duration)) {
+      alert('期間は整数にしてください')
+      return
+    }
     if (!isValidData(index, startPrice, endPrice)) return
     const { drizzle, drizzleState } = props
     const contract = drizzle.contracts.ItemShop
