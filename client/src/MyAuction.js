@@ -24,7 +24,7 @@ function timestampToDateTime (timestamp) {
   var sec = (d.getSeconds() < 10) ? '0' + d.getSeconds() : d.getSeconds()
   return year + '年' + month + '月' + day + '日 ' + hour + ':' + min + ':' + sec
 }
-function AuctionCard (props) {
+function MyAuction (props) {
   const data = useCacheCall('getAuction', props.id, props.drizzle, props.drizzleState)
   const price = useCurrentPrice(props.id, props.drizzle, props.drizzleState)
   if (!data) return null
@@ -59,4 +59,4 @@ function AuctionCard (props) {
   </Card>)
 }
 
-export default withDrizzleContext(AuctionCard)
+export default withDrizzleContext(MyAuction)
