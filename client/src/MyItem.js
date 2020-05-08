@@ -4,7 +4,7 @@ import ExhibitSelectButton from './ExhibitSelectButton'
 import Card from 'react-bootstrap/Card'
 import withDrizzleContext from './withDrizzleContext'
 
-function ItemCard (props) {
+function MyItem (props) {
   return (<Card key={props.id} style={{ textAlign: 'center' }}>
     <Card.Body>
       <ItemTitleAndImage id={props.id}/>
@@ -13,4 +13,4 @@ function ItemCard (props) {
   </Card>)
 }
 
-export default withDrizzleContext(ItemCard)
+export default withDrizzleContext(MyItem)
