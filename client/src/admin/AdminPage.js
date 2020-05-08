@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import AddItem from './AddItem'
 import withDrizzleContext from '../common/withDrizzleContext'
+import useOwner from './useOwner'
 
 function AdminPage (props) {
-  const [owner, setOwner] = useState('')
-  const [key, setKey] = useState('')
   const [account, setAccount] = useState(undefined)
-
-  useEffect(() => {
-    const contract = props.drizzle.contracts.ItemShop
-    const key = contract.methods.owner.cacheCall()
-    setKey(key)
-  }, [props.drizzle])
-
-  useEffect(() => {
-    const contract = props.drizzleState.contracts.ItemShop
-    const owner = contract.owner[key] ? contract.owner[key].value : undefined
-    setOwner(owner)
-  }, [key, props.drizzleState])
+  const owner = useOwner(props.drizzle, props.drizzleState)
 
   useEffect(() => {
     setAccount(props.drizzleState.accounts[0])
