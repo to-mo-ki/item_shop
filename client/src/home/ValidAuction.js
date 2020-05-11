@@ -31,6 +31,7 @@ function ValidAuction (props) {
   const { 0: tokenId, 1: startPrice, 2: endPrice, 3: duration, 4: owner, 5: createdAt, 6: createdAtTimeStamp } = data
   const startWeiPrice = props.drizzle.web3.utils.fromWei(startPrice, 'ether')
   const endWeiPrice = props.drizzle.web3.utils.fromWei(endPrice, 'ether')
+  console.log(startWeiPrice, startPrice)
   const id = props.id
 
   return (<Card key={props.id}>
@@ -39,21 +40,22 @@ function ValidAuction (props) {
       <Card.Text>
         owner:{owner}<br />
         期間:{displayDuration(duration)}<br />
-        開始時間:{timestampToDateTime(createdAtTimeStamp)}<br />
+        開始時間:{timestampToDateTime(createdAtTimeStamp)}<br /><br />
+        <Container style={{ textAlign: 'center', margin: '0px' }}>
+          <Row>
+            <Col xs={4} style={{ padding: '0px' }}>開始価格</Col>
+            <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{startWeiPrice}</Col>
+          </Row>
+          <Row>
+            <Col xs={4} style={{ padding: '0px' }}>終了価格</Col>
+            <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{endWeiPrice}</Col>
+          </Row>
+          <Row>
+            <Col xs={4} style={{ padding: '0px' }}>現在の価格</Col>
+            <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{price}</Col>
+          </Row>
+        </Container>
       </Card.Text>
-      Price:
-      <Container style={{ textAlign: 'center', margin: '10px' }}>
-        <Row>
-          <Col>start</Col>
-          <Col>end</Col>
-          <Col>current</Col>
-        </Row>
-        <Row>
-          <Col>{startWeiPrice}</Col>
-          <Col>{endWeiPrice}</Col>
-          <Col>{price}</Col>
-        </Row>
-      </Container>
       <BidButton index={id} price={price}/>
     </Card.Body>
   </Card>)
