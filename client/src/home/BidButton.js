@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import withDrizzleContext from '../common/withDrizzleContext'
+import useTxStatus from '../common/useTxStatus'
 
 function BidButton (props) {
   const [stackId, setStackId] = useState(null)
+
+  useTxStatus('入札', stackId, props.drizzleState)
 
   const bid = () => {
     const { drizzle, drizzleState, index, price } = props
@@ -14,17 +17,6 @@ function BidButton (props) {
     })
     setStackId(stackId)
   }
-
-  const getTxStatus = () => {
-    const { transactions, transactionStack } = props.drizzleState
-    const txHash = transactionStack[stackId]
-    if (!txHash || !transactions[txHash]) return ''
-    return transactions[txHash].status
-  }
-
-  useEffect(() => {
-    props.setTxStatus(getTxStatus())
-  }, [props.drizzleState])
 
   return <Button variant="primary" onClick={bid}>buy</Button>
 }
