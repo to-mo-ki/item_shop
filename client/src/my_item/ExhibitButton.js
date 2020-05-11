@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import withDrizzleContext from '../common/withDrizzleContext'
+import useTxStatus from '../common/useTxStatus'
 
 const style = {
   margin: '10px'
@@ -28,6 +29,7 @@ function isPositiveNumber (str) {
 
 function ExhibitButton (props) {
   const [stackId, setStackId] = useState('')
+  useTxStatus('出品', stackId, props.drizzleState)
 
   const onClick = (index, startPrice, endPrice, duration) => {
     if (!(isPositiveNumber(startPrice) && isPositiveNumber(endPrice) && isPositiveNumber(duration))) {
@@ -50,19 +52,8 @@ function ExhibitButton (props) {
     setStackId(stackId)
   }
 
-  const getTxStatus = () => {
-    const { transactions, transactionStack } = props.drizzleState
-    const txHash = transactionStack[stackId]
-    if (!txHash) return null
-    return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`
-  }
-
   var { index, startPrice, endPrice, duration } = props
-  var button = <Button variant="primary" style={style} onClick={() => onClick(index, startPrice, endPrice, duration)}>Exihibit</Button>
-  return (<div>
-    {button}
-    {getTxStatus()}
-  </div>)
+  return <Button variant="primary" style={style} onClick={() => onClick(index, startPrice, endPrice, duration)}>Exihibit</Button>
 }
 
 export default withDrizzleContext(ExhibitButton)
