@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import withDrizzleContext from '../common/withDrizzleContext'
-import { toast } from 'react-toastify'
+import useTxStatus from '../common/useTxStatus'
 
 function BidButton (props) {
   const [stackId, setStackId] = useState(null)
+
+  useTxStatus('入札', stackId, props.drizzleState)
 
   const bid = () => {
     const { drizzle, drizzleState, index, price } = props
@@ -15,30 +17,6 @@ function BidButton (props) {
     })
     setStackId(stackId)
   }
-
-  useEffect(() => {
-    const { transactions, transactionStack } = props.drizzleState
-    const txHash = transactionStack[stackId]
-    console.log(txHash, transactions[txHash])
-    if (!transactions[txHash]) return
-    let display
-    switch (transactions[txHash].status) {
-      case 'pending':
-        display = '入札を試みています...'
-        toast.info(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
-        break
-      case 'success':
-        display = '入札に成功しました'
-        toast.success(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
-        break
-      case 'error':
-        display = '入札に失敗しました'
-        toast.error(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
-        break
-      default:
-        break
-    }
-  }, [props.drizzleState.transactions, props.drizzleState.transactionStack])
 
   return <Button variant="primary" onClick={bid}>buy</Button>
 }

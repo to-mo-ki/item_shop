@@ -1,37 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import uploadIpfs from '../common/IpfsUploader'
 import Button from 'react-bootstrap/Button'
 import withDrizzleContext from '../common/withDrizzleContext'
-import { toast } from 'react-toastify'
+import useTxStatus from '../common/useTxStatus'
 
 function AddItem (props) {
   const [stackId, setStackId] = useState(null)
   const [name, setName] = useState('')
   const [image, setImage] = useState(null)
 
-  useEffect(() => {
-    const { transactions, transactionStack } = props.drizzleState
-    const txHash = transactionStack[stackId]
-    console.log(txHash, transactions[txHash])
-    if (!transactions[txHash]) return
-    let display
-    switch (transactions[txHash].status) {
-      case 'pending':
-        display = 'Item追加を試みています...'
-        toast.info(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
-        break
-      case 'success':
-        display = 'Item追加に成功しました'
-        toast.success(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
-        break
-      case 'error':
-        display = 'Item追加に失敗しました'
-        toast.error(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
-        break
-      default:
-        break
-    }
-  }, [props.drizzleState.transactions, props.drizzleState.transactionStack])
+  useTxStatus('アイテムの追加', stackId, props.drizzleState)
 
   const addItem = async () => {
     const tokenURI = await uploadIpfs(name, image)
