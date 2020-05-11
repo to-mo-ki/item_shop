@@ -54,7 +54,7 @@ function ValidAuction (props) {
           <Col>{price}</Col>
         </Row>
       </Container>
-      <BidButton index={id} price={price} setTxStatus={props.setTxStatus}/>
+      <BidButton index={id} price={price}/>
     </Card.Body>
   </Card>)
 }

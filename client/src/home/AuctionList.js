@@ -4,7 +4,6 @@ import withDrizzleContext from '../common/withDrizzleContext'
 import Auction from './Auction'
 
 function AuctionList (props) {
-  const [txStatus, setTxStatus] = useState('')
   const [count, setCount] = useState(0)
 
   const fetchAuctionCount = async (contract) => {
@@ -18,15 +17,12 @@ function AuctionList (props) {
 
   const auctions = []
   for (let index = 0; index < count; index++) {
-    auctions.push(<Auction key={index} id={index} setTxStatus={setTxStatus} />)
+    auctions.push(<Auction key={index} id={index} />)
   }
   return (
-    <>
-      Transaction status: {txStatus}
-      <CardColumns>
-        {auctions}
-      </CardColumns>
-    </>
+    <CardColumns>
+      {auctions}
+    </CardColumns>
   )
 }
 
