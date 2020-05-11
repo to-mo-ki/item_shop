@@ -6,7 +6,7 @@ function LoadingContainer (props) {
   const [network, setNetwork] = useState(undefined)
 
   useEffect(() => {
-    if (props.initialized) {
+    if (props.initialized && props.drizzle.web3) {
       fetchNetwork(props.drizzle)
     }
   }, [props.initialized, props.drizzle])
@@ -18,6 +18,7 @@ function LoadingContainer (props) {
 
   const drizzle = props.drizzle
   if (!props.initialized) return 'Loading...'
+  if (!props.drizzle.web3) return 'web3にアクセスできません。アプリへのアクセスを許可してください'
   if (!network) return 'Network checking...'
   if (network !== process.env.REACT_APP_NETWORK_TYPE) {
     return (
