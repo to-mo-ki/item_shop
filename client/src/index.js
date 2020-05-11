@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker'
 
 import { Drizzle, generateStore } from '@drizzle/store'
 import { DrizzleContext } from '@drizzle/react-plugin'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const options = {
   web3: {
@@ -21,6 +23,7 @@ const drizzle = new Drizzle(options, drizzleStore)
 
 ReactDOM.render(
   <DrizzleContext.Provider drizzle={drizzle}>
+    <ToastContainer />
     <App />
   </DrizzleContext.Provider>,
   document.getElementById('root'))
