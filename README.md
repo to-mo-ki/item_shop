@@ -32,6 +32,18 @@ root/
 ┗ test/: Solidityのテストファイル
 ```
 
+# 開発言語・ライブラリ・フレームワーク
+クライアントサイド
+- React
+- create-react-app
+- ipfs-http-client:ipfsの依存
+- bootstrap
+- truffle
+- truffle-hdwallet-provider
+- drizzle
+- openzeppelin
+- chai
+- mocha
 # How to run
 ## 環境変数
 - REACT_APP_INFURA_URL：ブロックチェーンURL
