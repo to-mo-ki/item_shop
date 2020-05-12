@@ -1,5 +1,5 @@
 const path = require("path");
-var HDWalletProvider = require("truffle-hdwallet-provider");
+var HDWalletProvider = require("@truffle/hdwallet-provider");
 var accessToken = process.env.INFURA_ACCESS_TOKEN;
 var deployAccount = process.env.INFURA_DEPLOY_ACCOUNT_PRIVATE_KEY;
 
