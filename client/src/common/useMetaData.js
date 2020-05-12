@@ -20,7 +20,6 @@ function useMetaData (URI) {
     if (typeof (content.image) === 'string') {
       setImage(content.image)
     }
-    console.log(content)
   }
 
   return { name, image }
