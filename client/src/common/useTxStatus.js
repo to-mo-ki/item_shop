@@ -1,14 +1,22 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
 function useTxStatus (eventName, stackId, drizzleState) {
+  const [status, setStatus] = useState(undefined)
+
   useEffect(() => {
     const { transactions, transactionStack } = drizzleState
     const txHash = transactionStack[stackId]
-    console.log(txHash, transactions[txHash])
-    if (!transactions[txHash]) return
+    if (!transactions[txHash]) {
+      setStatus(undefined)
+    } else {
+      setStatus(transactions[txHash].status)
+    }
+  }, [drizzleState.transactions, drizzleState.transactionStack, stackId])
+
+  useEffect(() => {
     let display
-    switch (transactions[txHash].status) {
+    switch (status) {
       case 'pending':
         display = eventName + 'を試みています...'
         toast.info(display, { position: toast.POSITION.TOP_RIGHT, hideProgressBar: true })
@@ -24,7 +32,7 @@ function useTxStatus (eventName, stackId, drizzleState) {
       default:
         break
     }
-  }, [drizzleState.transactions, drizzleState.transactionStack])
+  }, [status])
 }
 
 export default useTxStatus

@@ -31,7 +31,6 @@ function ValidAuction (props) {
   const { 0: tokenId, 1: startPrice, 2: endPrice, 3: duration, 4: owner, 5: createdAt, 6: createdAtTimeStamp } = data
   const startWeiPrice = props.drizzle.web3.utils.fromWei(startPrice, 'ether')
   const endWeiPrice = props.drizzle.web3.utils.fromWei(endPrice, 'ether')
-  console.log(startWeiPrice, startPrice)
   const id = props.id
 
   return (<Card key={props.id}>
