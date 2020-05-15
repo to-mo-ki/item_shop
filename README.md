@@ -32,51 +32,82 @@ root/
 ┗ test/: Solidityのテストファイル
 ```
 
-# 開発言語・ライブラリ・フレームワーク
-クライアントサイド
-- React
-- create-react-app
-- ipfs-http-client:ipfsの依存
-- bootstrap
-- truffle
-- truffle-hdwallet-provider
-- drizzle
-- openzeppelin
-- chai
-- mocha
+# 開発環境
+- node v11.15.0
+- npm 6.7.0
+- yarn 1.22.4
+- ipfs 0.5.1
+- truffle v5.1.23 
+- gnache 2.4.0
+
+
+# 利用したプログラミング言語
+- Solidity
+- javascript
+
+# 利用したライブラリ・フレームワーク
+## サーバー
+- truffle: ブロックチェーン開発環境（ただし、テストには使っていない）
+- truffle-hdwallet-provider: truffle-configで使用
+- @openzeppelin/contracts: ERC721, Ownableのコントラクトを使用
+- mocha: テストフレームワーク
+- @openzeppelin/test-environment: テストで使用
+- @openzeppelin/test-helper: テストで使用
+
+## フロント
+- React:create-react-appを用いて作成
+- ipfs-http-client: ipfsをjavascriptで扱うライブラリ
+- react-bootstrap: bootstrapをreactで扱うライブラリ
+- react-router-dom: ルーティング
+- @drizzle/store: web3の状態管理を行うredux
+- @web3/react-plugin: drizzleContextが使える
+
 # How to run
 ## 環境変数
+### フロント
 - REACT_APP_INFURA_URL：ブロックチェーンURL
 infuraのrinkebyだと"wss://rinkeby.infura.io/ws/v3/"+"PROJECT ID"
 - REACT_APP_NETWORK_TYPE："private" | "rinkeby"
 - REACT_APP_IPFS_HOST：ipfsに使用するホスト
 - REACT_APP_IPFS_PROTOCOL："http" | "https"
 - REACT_APP_IPFS_BASE_URL：ERC721に登録するベースURI
+
+### infuraへのデプロイ
 - INFURA_ACCESS_TOKEN：デプロイに使用するアカウントの秘密鍵
 - INFURA_DEPLOY_ACCOUNT_PRIVATE_KEY：infuraのrinkebyだと"PROJECT ID"
 
-## server: solidity
+## ipfs, truffle, ganacheのインストール方法(Mac)
 ```
-$ npm install
+# ipfs
+$ brew install ipfs
+# truffle
 $ npm install -g truffle
+# ganache
+brew cask install ganache
+```
+
+## コントラクト
+```
+$ yarn install
 # コンパイル
 truffle compile
 # ローカル環境にデプロイ
 $ truffle migrate --network development
 # rinkebyネットワークにデプロイ
 $ truffle migrate --network rinkeby
+# テスト
+npm test
 ```
 
-## client: react
+## フロント
 ```
 $ cd client
-$ npm install
+$ yarn install
 $ npm start
 ```
 
 ## ipfsの起動(mac)
 ```
-$ brew install ipfs
 $ ipfs init
 $ brew services start ipfs
 # CORSの設定
@@ -84,12 +115,6 @@ $ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
 # 止める場合
 $ brew services stop ipfs
 ```
-
-## ローカルブロックチェーン(mac)
-```
-brew cask install ganache
-```
-インストール後、アプリケーションフォルダからganacheを起動
 
 # テストネット環境構築手順
 ## infura.ioのアカウント作成
