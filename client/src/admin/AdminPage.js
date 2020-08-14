@@ -13,10 +13,11 @@ function AdminPage (props) {
 
   useEffect(() => {
     if ((!owner) || (!account)) return
+    if (props.drizzle.web3.currentProvider.constructor.name === 'WebsocketProvider') alert('wallet addressに接続してください')
     if (owner !== account) alert('管理者ページは管理者しかアクセスできません')
   }, [account, owner])
 
-  if (owner !== account) return null
+  if (props.drizzle.web3.currentProvider.constructor.name === 'WebsocketProvider' || owner !== account) return null
 
   return (
     <div>

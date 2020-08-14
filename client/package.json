@@ -10,7 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@toruslabs/torus-embed": "^1.8.2",
     "bootstrap": "^3.4.1",
-    "formatic": "^2.2.0",
+    "fortmatic": "^2.2.1",
     "ipfs": "^0.43.0",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",

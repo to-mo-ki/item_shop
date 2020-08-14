@@ -12,6 +12,10 @@ function MyItemList (props) {
   }
 
   useEffect(() => {
+    if (props.drizzle.web3.currentProvider.constructor.name === 'WebsocketProvider') {
+      alert('wallet addressに接続してください')
+      return
+    }
     fetchItemCount(props.drizzle.contracts.ItemShop)
   }, [props.drizzleState])
 
