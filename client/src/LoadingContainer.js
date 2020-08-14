@@ -17,10 +17,13 @@ function LoadingContainer (props) {
     setNetwork(network)
   }
 
+  useEffect(() => {
+    if (network !== process.env.REACT_APP_NETWORK_TYPE) return
+    drizzle.addContract(ItemShop)
+  }, [network])
+
   const drizzle = props.drizzle
-  console.log(props.initialized)
   if (!props.initialized) return 'Loading...'
-  if (!props.drizzle.web3) return 'web3にアクセスできません。アプリへのアクセスを許可してください'
   if (!network) return 'Network checking...'
   if (network !== process.env.REACT_APP_NETWORK_TYPE) {
     return (
@@ -28,7 +31,7 @@ function LoadingContainer (props) {
       Change {process.env.REACT_APP_NETWORK_TYPE}  network.</div>
     )
   }
-  if (!drizzle.contracts.ItemShop) drizzle.addContract(ItemShop)
+
   if (!props.drizzleState.contracts.ItemShop) return 'Contract adding...'
   return <div>{props.children}</div>
 }

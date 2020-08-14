@@ -7,7 +7,7 @@ export default function Header () {
   return (
     <NavBar>
       <NavBar.Collapse>
-        <Nav coll>
+        <Nav>
           <Nav.Item>
             <Nav.Link href="/">Home</Nav.Link>
           </Nav.Item>
