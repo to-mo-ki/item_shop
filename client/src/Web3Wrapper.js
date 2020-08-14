@@ -13,8 +13,15 @@ export default function Web3Wrapper (props) {
   }, [props])
 
   const getProvider = async () => {
+    console.log(web3Modal.cachedProvider)
     if (web3Modal.cachedProvider) {
-      return (await web3Modal.connect())
+      try {
+        return await web3Modal.connect()
+      } catch (e) {
+        alert('providerへの接続中にエラーが発生しました')
+        console.log(e)
+        return process.env.REACT_APP_INFURA_URL
+      }
     } else {
       return process.env.REACT_APP_INFURA_URL
     }
