@@ -3,10 +3,11 @@ import { Drizzle } from '@drizzle/store'
 import { DrizzleContext } from '@drizzle/react-plugin'
 import web3Modal from './web3modal'
 import Web3 from 'web3'
+import Web3Context from './Web3Context'
 
 export default function Web3Wrapper (props) {
   const [drizzle, setDrizzle] = useState(null)
-
+  const [isConnect, setIsConnect] = useState(false)
   useEffect(() => {
     createDrizzle()
   }, [props])
@@ -30,10 +31,15 @@ export default function Web3Wrapper (props) {
     const web3 = new Web3(provider)
     const options = { web3: { customProvider: web3 } }
     setDrizzle(new Drizzle(options))
+    if (provider !== process.env.REACT_APP_INFURA_URL) {
+      setIsConnect(true)
+    }
   }
 
   if (!drizzle) return <></>
   return <DrizzleContext.Provider drizzle={drizzle}>
-    {props.children}
+    <Web3Context.Provider value={{ isConnect }}>
+      {props.children}
+    </Web3Context.Provider>
   </DrizzleContext.Provider>
 }
