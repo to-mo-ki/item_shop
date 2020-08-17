@@ -1,12 +1,12 @@
 import React from 'react'
-import NavBar from 'react-bootstrap/NavBar'
+import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import WalletButton from './WalletButton'
 
 export default function Header () {
   return (
-    <NavBar>
-      <NavBar.Collapse>
+    <Navbar>
+      <Navbar.Collapse>
         <Nav>
           <Nav.Item>
             <Nav.Link href="/">Home</Nav.Link>
@@ -18,10 +18,10 @@ export default function Header () {
             <Nav.Link href="/admin">管理者ページ</Nav.Link>
           </Nav.Item>
         </Nav>
-      </NavBar.Collapse>
+      </Navbar.Collapse>
       <Nav>
         <WalletButton />
       </Nav>
-    </NavBar>
+    </Navbar>
   )
 }
