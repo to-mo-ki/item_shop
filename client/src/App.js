@@ -7,12 +7,12 @@ import { Container } from 'react-bootstrap'
 
 function App (props) {
   return (
-    <LoadingContainer>
-      <Container>
-        <Header />
+    <Container>
+      <Header />
+      <LoadingContainer>
         <Main />
-      </Container>
-    </LoadingContainer>
+      </LoadingContainer>
+    </Container>
   )
 }
 

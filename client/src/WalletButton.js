@@ -21,16 +21,14 @@ function WalletButton (props) {
     await web3Modal.clearCachedProvider()
     window.location.reload()
   }, [])
-  // if (props.drizzle.web3.currentProvider.constructor.name === 'WebsocketProvider') {
-  //   return <Button onClick={disconnect}>connect</Button>
-  // } else {
-  //   return <Button onClick={disconnect}>disconnect</Button>
-  // }
-
-  return <>
-    <Button onClick={connect}>connect</Button>
-    <Button onClick={disconnect}>disconnect</Button>
-  </>
+  if (!props.drizzle.web3.currentProvider) {
+    return null
+  }
+  if (props.drizzle.web3.currentProvider.constructor.name === 'WebsocketProvider') {
+    return <Button onClick={connect}>connect</Button>
+  } else {
+    return <Button onClick={disconnect}>disconnect</Button>
+  }
 }
 
 export default withDrizzleContext(WalletButton)
