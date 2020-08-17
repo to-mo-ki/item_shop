@@ -39,22 +39,22 @@ function ValidAuction (props) {
       <Card.Text>
         owner:{owner}<br />
         期間:{displayDuration(duration)}<br />
-        開始時間:{timestampToDateTime(createdAtTimeStamp)}<br /><br />
-        <Container style={{ textAlign: 'center', margin: '0px' }}>
-          <Row>
-            <Col xs={4} style={{ padding: '0px' }}>開始価格</Col>
-            <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{startWeiPrice}</Col>
-          </Row>
-          <Row>
-            <Col xs={4} style={{ padding: '0px' }}>終了価格</Col>
-            <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{endWeiPrice}</Col>
-          </Row>
-          <Row>
-            <Col xs={4} style={{ padding: '0px' }}>現在の価格</Col>
-            <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{price}</Col>
-          </Row>
-        </Container>
+        開始時間:{timestampToDateTime(createdAtTimeStamp)}<br />
       </Card.Text>
+      <Container style={{ textAlign: 'center', margin: '0px' }}>
+        <Row>
+          <Col xs={4} style={{ padding: '0px' }}>開始価格</Col>
+          <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{startWeiPrice}</Col>
+        </Row>
+        <Row>
+          <Col xs={4} style={{ padding: '0px' }}>終了価格</Col>
+          <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{endWeiPrice}</Col>
+        </Row>
+        <Row>
+          <Col xs={4} style={{ padding: '0px' }}>現在の価格</Col>
+          <Col xs={8} style={{ textAlign: 'left', padding: '0px' }}>{price}</Col>
+        </Row>
+      </Container>
       <BidButton index={id} price={price}/>
     </Card.Body>
   </Card>)

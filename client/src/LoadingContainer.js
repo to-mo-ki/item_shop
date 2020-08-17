@@ -4,9 +4,10 @@ import { DrizzleContext } from '@drizzle/react-plugin'
 
 function LoadingContainer (props) {
   const [network, setNetwork] = useState(undefined)
+  const [contract, setContract] = useState(false)
 
   useEffect(() => {
-    if (props.initialized && props.drizzle.web3) {
+    if (props.initialized && props.drizzle && props.drizzle.web3 && props.drizzle.web3.eth) {
       fetchNetwork(props.drizzle)
     }
   }, [props.initialized, props.drizzle])
@@ -16,9 +17,13 @@ function LoadingContainer (props) {
     setNetwork(network)
   }
 
+  useEffect(() => {
+    if (network !== process.env.REACT_APP_NETWORK_TYPE) return
+    drizzle.addContract(ItemShop)
+  }, [network])
+
   const drizzle = props.drizzle
   if (!props.initialized) return 'Loading...'
-  if (!props.drizzle.web3) return 'web3にアクセスできません。アプリへのアクセスを許可してください'
   if (!network) return 'Network checking...'
   if (network !== process.env.REACT_APP_NETWORK_TYPE) {
     return (
@@ -26,7 +31,7 @@ function LoadingContainer (props) {
       Change {process.env.REACT_APP_NETWORK_TYPE}  network.</div>
     )
   }
-  if (!drizzle.contracts.ItemShop) drizzle.addContract(ItemShop)
+
   if (!props.drizzleState.contracts.ItemShop) return 'Contract adding...'
   return <div>{props.children}</div>
 }
