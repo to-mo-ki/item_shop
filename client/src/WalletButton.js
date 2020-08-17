@@ -1,9 +1,11 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import withDrizzleContext from './common/withDrizzleContext'
 import Button from 'react-bootstrap/Button'
 import web3Modal from './web3modal'
+import Web3Context from './Web3Context'
 
 function WalletButton (props) {
+  const { isConnect } = useContext(Web3Context)
   const connect = useCallback(async () => {
     try {
       await web3Modal.connect()
@@ -24,10 +26,10 @@ function WalletButton (props) {
   if (!props.drizzle.web3.currentProvider) {
     return null
   }
-  if (props.drizzle.web3.currentProvider.constructor.name === 'WebsocketProvider') {
-    return <Button onClick={connect}>connect</Button>
-  } else {
+  if (isConnect) {
     return <Button onClick={disconnect}>disconnect</Button>
+  } else {
+    return <Button onClick={connect}>connect</Button>
   }
 }
 
