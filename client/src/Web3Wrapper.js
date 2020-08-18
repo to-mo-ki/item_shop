@@ -19,10 +19,10 @@ export default function Web3Wrapper (props) {
       } catch (e) {
         alert('providerへの接続中にエラーが発生しました')
         console.log(e)
-        return process.env.REACT_APP_INFURA_URL
+        return process.env.REACT_APP_ENDPOINT_WSS_URL
       }
     } else {
-      return process.env.REACT_APP_INFURA_URL
+      return process.env.REACT_APP_ENDPOINT_WSS_URL
     }
   }
 
@@ -31,7 +31,7 @@ export default function Web3Wrapper (props) {
     const web3 = new Web3(provider)
     const options = { web3: { customProvider: web3 } }
     setDrizzle(new Drizzle(options))
-    if (provider !== process.env.REACT_APP_INFURA_URL) {
+    if (provider !== process.env.REACT_APP_ENDPOINT_WSS_URL) {
       setIsConnect(true)
     }
   }
