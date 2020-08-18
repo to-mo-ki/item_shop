@@ -9,7 +9,7 @@ const providerOptions = {
     package: Torus, // required
     options: {
       networkParams: {
-        host: 'https://localhost:8545'
+        host: process.env.REACT_APP_ENDPOINT_HTTP_URL
       }
     }
   },

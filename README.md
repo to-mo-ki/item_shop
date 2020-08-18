@@ -34,7 +34,7 @@ root/
 
 # How to run
 ## 環境変数
-- REACT_APP_INFURA_URL：ブロックチェーンURL
+- REACT_APP_ENDPOINT_WSS_URL：ブロックチェーンURL
 infuraのrinkebyだと"wss://rinkeby.infura.io/ws/v3/"+"PROJECT ID"
 - REACT_APP_NETWORK_TYPE："private" | "rinkeby"
 - REACT_APP_IPFS_HOST：ipfsに使用するホスト
